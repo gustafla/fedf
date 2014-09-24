@@ -106,8 +106,10 @@ int main(int argc, char* argv[]) {
             SDL_BlitSurface(gameData.buffer, NULL, screen, NULL);
         #endif
 		SDL_Flip(screen);
-        delay = (1000/60 - (SDL_GetTicks() - timeLast));
-        SDL_Delay(delay < 0 ? 0 : delay);
+        #ifndef BENCHMARK
+            delay = (1000/60 - (SDL_GetTicks() - timeLast));
+            SDL_Delay(delay < 0 ? 0 : delay);
+        #endif
         
         frames++;
         if (fpsLast+10000<SDL_GetTicks()) {

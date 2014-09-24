@@ -40,7 +40,8 @@ class Player {
         
     public:
         Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, std::string ispritename, int ihealth=100);
-        int getHealth();
+        unsigned int getHealth();
+        void takeDamage(unsigned int amnt);
         SDL_Rect getCoord();
         void update();
 };

@@ -16,26 +16,27 @@ This file is part of Fedora Fighters.
     along with Fedora Fighters, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef GAME_HPP
-#define GAME_HPP
+#ifndef HUD_HPP
+#define HUD_HPP
 
 #include <SDL/SDL.h>
-#include <vector>
-#include "game_data.hpp"
 #include "player.hpp"
-#include "stage.hpp"
-#include "hud.hpp"
 
-class Game {
-	private:
-		GameData* gameData;
-		std::vector<Player> players;
-		Stage stage;
-		Hud hud;
-		
-	public:
-		Game(GameData* igameData, Stage istage, Player player1, Player player2/*, unsigned int timer*/);
-		void update();
+class Hud {
+    private:
+        SDL_Rect p1hcoord;
+        SDL_Rect p2hcoord;
+        SDL_Surface* p1hframe;
+        SDL_Surface* p2hframe;
+        SDL_Surface* p1hbar;
+        SDL_Surface* p2hbar;
+        Player* p1;
+        Player* p2;
+        GameData* gameData;
+    public:
+        Hud(GameData* igameData, Player* ip1, Player*ip2);
+        Hud();
+        void draw();
 };
 
 #endif

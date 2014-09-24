@@ -2,3 +2,6 @@
 fedf*
 gfx/
 *.dll
+COPYING
+stdout.txt
+stderr.txt

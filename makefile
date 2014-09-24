@@ -18,7 +18,7 @@
 #    along with Fedora Fighters, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 #
 
-SRCS=main.cpp gfxutil.cpp stage.cpp game_data.cpp util.cpp player.cpp config.cpp game.cpp
+SRCS=main.cpp gfxutil.cpp stage.cpp game_data.cpp util.cpp player.cpp config.cpp game.cpp hud.cpp
 TARGET=fedf
 CFLAGS=
 INCLUDES=-I./
@@ -27,49 +27,70 @@ LIBS=-lSDL -lSDL_image
 CC=g++
 STRIP=strip
 lin:TARGET=fedf
-lin:CFLAGS=-O2 -fomit-frame-pointer
-lin:INCLUDES=-I./
-lin:LFLAGS=
-lin:LIBS=-lSDL -lSDL_image
+lin:CFLAGS+=-O2 -fomit-frame-pointer
+lin:INCLUDES+=-I./
+lin:LFLAGS+=
+lin:LIBS+=-lSDL -lSDL_image
 lin:CC=g++
 lin:STRIP=strip
-lindbhack:TARGET=fedf-dbhack-windowed
-lindbhack:CFLAGS=-O2 -fomit-frame-pointer -DDBHACK -DNOFS
-lindbhack:INCLUDES=-I./
-lindbhack:LFLAGS=
-lindbhack:LIBS=-lSDL -lSDL_image
+lindbhack:TARGET=fedf-dbhack
+lindbhack:CFLAGS+=-O2 -fomit-frame-pointer -DDBHACK
+lindbhack:INCLUDES+=-I./
+lindbhack:LFLAGS+=
+lindbhack:LIBS+=-lSDL -lSDL_image
 lindbhack:CC=g++
 lindbhack:STRIP=strip
 linwin:TARGET=fedf-windowed
-linwin:CFLAGS=-O2 -fomit-frame-pointer -DNOFS
-linwin:INCLUDES=-I./
-linwin:LFLAGS=
-linwin:LIBS=-lSDL -lSDL_image
+linwin:CFLAGS+=-O2 -fomit-frame-pointer -DNOFS
+linwin:INCLUDES+=-I./
+linwin:LFLAGS+=
+linwin:LIBS+=-lSDL -lSDL_image
 linwin:CC=g++
 linwin:STRIP=strip
+linwindbhack:TARGET=fedf-dbhack-windowed
+linwindbhack:CFLAGS+=-O2 -fomit-frame-pointer -DNOFS -DDBHACK
+linwindbhack:INCLUDES+=-I./
+linwindbhack:LFLAGS+=
+linwindbhack:LIBS+=-lSDL -lSDL_image
+linwindbhack:CC=g++
+linwindbhack:STRIP=strip
 debug:TARGET=fedfd
 debug:CFLAGS=-g -DDEBUG
 win32:TARGET=fedf.exe
-win32:CFLAGS=-O3 -fomit-frame-pointer -funroll-loops
-win32:INCLUDES=-I/opt/win32/include -I./ -I/opt/win32/include/SDL
-win32:LFLAGS=-L/opt/win32/lib
-win32:LIBS=-lmingw32 -lSDLmain -lSDL -lSDL_image
+win32:CFLAGS+=-O3 -fomit-frame-pointer -funroll-loops
+win32:INCLUDES+=-I/opt/win32/include -I./ -I/opt/win32/include/SDL
+win32:LFLAGS+=-L/opt/win32/lib
+win32:LIBS+=-lmingw32 -lSDLmain -lSDL -lSDL_image
 win32:CC=i586-mingw32msvc-g++
 win32:STRIP=i586-mingw32msvc-strip
-win32dbhack:TARGET=fedf-dbhack-windowed.exe
-win32dbhack:CFLAGS=-O3 -fomit-frame-pointer -funroll-loops -DDBHACK -DNOFS
+win32dbhack:TARGET=fedf-dbhack.exe
+win32dbhack:CFLAGS=-O3 -fomit-frame-pointer -funroll-loops -DDBHACK
 win32dbhack:INCLUDES=-I/opt/win32/include -I./ -I/opt/win32/include/SDL
 win32dbhack:LFLAGS=-L/opt/win32/lib
 win32dbhack:LIBS=-lmingw32 -lSDLmain -lSDL -lSDL_image
 win32dbhack:CC=i586-mingw32msvc-g++
 win32dbhack:STRIP=i586-mingw32msvc-strip
 win32win:TARGET=fedf-windowed.exe
-win32win:CFLAGS=-O3 -fomit-frame-pointer -funroll-loops -DNOFS
-win32win:INCLUDES=-I/opt/win32/include -I./ -I/opt/win32/include/SDL
-win32win:LFLAGS=-L/opt/win32/lib
-win32win:LIBS=-lmingw32 -lSDLmain -lSDL -lSDL_image
+win32win:CFLAGS+=-O3 -fomit-frame-pointer -funroll-loops -DNOFS
+win32win:INCLUDES+=-I/opt/win32/include -I./ -I/opt/win32/include/SDL
+win32win:LFLAGS+=-L/opt/win32/lib
+win32win:LIBS+=-lmingw32 -lSDLmain -lSDL -lSDL_image
 win32win:CC=i586-mingw32msvc-g++
 win32win:STRIP=i586-mingw32msvc-strip
+win32winbenchmark:TARGET=fedf-windowed-benchmark.exe
+win32winbenchmark:CFLAGS+=-O3 -fomit-frame-pointer -funroll-loops -DNOFS -DBENCHMARK
+win32winbenchmark:INCLUDES+=-I/opt/win32/include -I./ -I/opt/win32/include/SDL
+win32winbenchmark:LFLAGS+=-L/opt/win32/lib
+win32winbenchmark:LIBS+=-lmingw32 -lSDLmain -lSDL -lSDL_image
+win32winbenchmark:CC=i586-mingw32msvc-g++
+win32winbenchmark:STRIP=i586-mingw32msvc-strip
+win32windbhack:TARGET=fedf-dbhack-windowed.exe
+win32windbhack:CFLAGS+=-O3 -fomit-frame-pointer -funroll-loops -DNOFS -DDBHACK
+win32windbhack:INCLUDES+=-I/opt/win32/include -I./ -I/opt/win32/include/SDL
+win32windbhack:LFLAGS+=-L/opt/win32/lib
+win32windbhack:LIBS+=-lmingw32 -lSDLmain -lSDL -lSDL_image
+win32windbhack:CC=i586-mingw32msvc-g++
+win32windbhack:STRIP=i586-mingw32msvc-strip
 OBJS=$(SRCS:.cpp=.o)
 
 lin: $(TARGET)
@@ -81,6 +102,10 @@ lindbhack: $(TARGET)
 	@echo "Build finished."
 	
 linwin: $(TARGET)
+	$(STRIP) --strip-all $(TARGET)
+	@echo "Build finished."
+	
+linwindbhack: $(TARGET)
 	$(STRIP) --strip-all $(TARGET)
 	@echo "Build finished."
 
@@ -105,6 +130,26 @@ win32dbhack: $(TARGET)
 	@echo "Finished."
 
 win32win: $(TARGET)
+	$(STRIP) --strip-all $(TARGET)
+	upx $(TARGET)
+	cp /opt/win32/bin/SDL.dll ./
+	cp /opt/win32/bin/SDL_image.dll ./
+	cp /opt/win32/bin/zlib1.dll ./
+	cp /opt/win32/bin/libpng*.dll ./
+	cp /opt/win32/bin/SDL_mixer.dll ./
+	@echo "Finished."
+	
+win32winbenchmark: $(TARGET)
+	$(STRIP) --strip-all $(TARGET)
+	upx $(TARGET)
+	cp /opt/win32/bin/SDL.dll ./
+	cp /opt/win32/bin/SDL_image.dll ./
+	cp /opt/win32/bin/zlib1.dll ./
+	cp /opt/win32/bin/libpng*.dll ./
+	cp /opt/win32/bin/SDL_mixer.dll ./
+	@echo "Finished."
+	
+win32windbhack: $(TARGET)
 	$(STRIP) --strip-all $(TARGET)
 	upx $(TARGET)
 	cp /opt/win32/bin/SDL.dll ./

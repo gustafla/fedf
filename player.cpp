@@ -39,8 +39,12 @@ right(iright) {
     coord.h = 64;
 }
 
-int Player::getHealth() {
-    return health;
+unsigned int Player::getHealth() {
+    return (health > 0) ? health : 0;
+}
+
+void Player::takeDamage(unsigned int amnt) {
+    health -= amnt;
 }
 
 SDL_Rect Player::getCoord() {
@@ -48,6 +52,9 @@ SDL_Rect Player::getCoord() {
 }
 
 void Player::update() {
+    if (health < 0)
+        health = 0;
+    
     if (fall > 0) {
         coord.y += fall;
         fall++;

@@ -24,7 +24,7 @@ This file is part of Fedora Fighters.
 #ifdef DEBUG
     std::string const VERSION = "debug build";
 #else
-    std::string const VERSION = "0.0.5 alpha";
+    std::string const VERSION = "0.0.6 alpha";
 #endif
 
 unsigned int const WIDTH = 640;
@@ -48,4 +48,4 @@ PlayerControls const PLAYER2_CONTROLS = {
     SDLK_v          //b
 };
 
-unsigned int const SPLASH_DELAY = 3000;
+unsigned int const SPLASH_DELAY = 4000;
