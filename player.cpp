@@ -28,16 +28,33 @@ Player::Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bo
 health(ihealth),
 gameData(igameData),
 controls(icontrols),
-canAttack(false),
+active(false),
 fall(0),
 jump(0),
 speed(6),
 right(iright) {
+    #ifdef DEBUG
+        std::cout << "Player constructor\n";
+    #endif
     file2surface(ispritename, &sprite);
     coord.x = spawn.x;
     coord.y = spawn.y;
     coord.w = 64;
     coord.h = 64;
+    #ifdef DEBUG
+        std::cout << "Player constructor finish\n";
+    #endif
+}
+
+void Player::clean() {
+    #ifdef DEBUG
+        std::cout << "Player clean\n";
+    #endif
+    SDL_FreeSurface(sprite);
+    
+    #ifdef DEBUG
+        std::cout << "Player clean finish\n";
+    #endif
 }
 
 unsigned int Player::getHealth() {
@@ -45,7 +62,8 @@ unsigned int Player::getHealth() {
 }
 
 void Player::takeDamage(unsigned int amnt) {
-    health -= amnt;
+    if (active)
+        health -= amnt;
 }
 
 SDL_Rect Player::getCoord() {
@@ -53,7 +71,15 @@ SDL_Rect Player::getCoord() {
 }
 
 void Player::start() {
-    canAttack = true;
+    active = true;
+}
+
+void Player::stop() {
+    active = false;
+}
+
+bool Player::isActive() {
+    return active;
 }
 
 void Player::push(int vec) {
@@ -61,6 +87,9 @@ void Player::push(int vec) {
 }
 
 void Player::update() {
+    #ifdef DEBUG
+        std::cout << "Player update\n";
+    #endif
     if (health < 0)
         health = 0;
     
@@ -94,17 +123,19 @@ void Player::update() {
         #endif
     }
     
-    if (gameData->keystate[controls.LEFT]) {
-        right=false;
-        if (coord.x > 0)
-            coord.x-=speed;
-    } if (gameData->keystate[controls.RIGHT]) {
-        right=true;
-        if (coord.x+coord.w < WIDTH)
-            coord.x+=speed;
-    } if (gameData->keystate[controls.JUMP]) {
-        if (jump == 0 && fall == 0)
-            jump=16;
+    if (active) {
+        if (gameData->keystate[controls.LEFT]) {
+            right=false;
+            if (coord.x > 0)
+                coord.x-=speed;
+        } if (gameData->keystate[controls.RIGHT]) {
+            right=true;
+            if (coord.x+coord.w < WIDTH)
+                coord.x+=speed;
+        } if (gameData->keystate[controls.JUMP]) {
+            if (jump == 0 && fall == 0)
+                jump=16;
+        }
     }
     
     if (coord.x < 0)
@@ -114,4 +145,8 @@ void Player::update() {
     
     SDL_Rect sRect = buildRect(0, 0, coord.w, coord.h);
     SDL_BlitSurface(sprite, &sRect, gameData->buffer, &coord);
+    
+    #ifdef DEBUG
+        std::cout << "Player update finish\n";
+    #endif
 }

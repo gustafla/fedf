@@ -38,15 +38,18 @@ class Player {
         
         PlayerControls controls;
         
-        bool canAttack;
+        bool active;
         
     public:
         Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, std::string ispritename, int ihealth=100);
+        void clean();
         unsigned int getHealth();
         void takeDamage(unsigned int amnt);
         SDL_Rect getCoord();
         void update();
         void start();
+        void stop();
+        bool isActive();
         void push(int vec);
 };
 

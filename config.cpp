@@ -24,7 +24,7 @@ This file is part of Fedora Fighters.
 #ifdef DEBUG
     std::string const VERSION = "debug build";
 #else
-    std::string const VERSION = "0.0.6 alpha";
+    std::string const VERSION = "0.1 alpha";
 #endif
 
 unsigned int const WIDTH = 640;

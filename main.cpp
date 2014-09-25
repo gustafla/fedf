@@ -74,7 +74,7 @@ int main(int argc, char* argv[]) {
     
     doSplashScreen(&gameData, screen);
 
-	Game game(
+	Game* game = new Game(
 		&gameData,
 		Stage(&gameData, "gfx/test.png"),
 		Player(&gameData, PLAYER1_CONTROLS, buildRect(10, 100, 64, 64), true, "gfx/playertest.png"),
@@ -100,7 +100,16 @@ int main(int argc, char* argv[]) {
 				gameData.running = false;
 		}
 
-		game.update();
+		game->update();
+        if (game->isFinished()) {
+            delete game;
+            game = new Game(
+                &gameData,
+                Stage(&gameData, "gfx/test.png"),
+                Player(&gameData, PLAYER1_CONTROLS, buildRect(10, 100, 64, 64), true, "gfx/playertest.png"),
+                Player(&gameData, PLAYER2_CONTROLS, buildRect(WIDTH-10-64, 100, 64, 64), false, "gfx/playertest.png")
+            );
+        }
         
         #ifdef DBHACK
             SDL_BlitSurface(gameData.buffer, NULL, screen, NULL);

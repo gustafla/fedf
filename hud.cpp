@@ -30,18 +30,46 @@ p2(ip2),
 gameData(igameData),
 p1hcoord(buildRect(20, 32, ((WIDTH/2)-20-32), 32)),
 p2hcoord(buildRect((WIDTH/2)+32, 32, ((WIDTH/2)-20-32), 32)) {
+    #ifdef DEBUG
+        std::cout << "Hud constructor\n";
+    #endif
     file2surface("gfx/health1frame.png", &p1hframe);
     file2surface("gfx/health2frame.png", &p2hframe);
     file2surface("gfx/health1bars.png", &p1hbar);
     file2surface("gfx/health2bars.png", &p2hbar);
     file2surface("gfx/fight.png", &start);
+    file2surface("gfx/p1win.png", &p1win);
+    file2surface("gfx/p2win.png", &p2win);
+    #ifdef DEBUG
+        std::cout << "Hud constructor finish\n";
+    #endif
 }
 
 Hud::Hud() {
     std::cout << "Using the dangerous workaround constructor for Hud.\n";
 };
 
-void Hud::draw() {
+void Hud::clean() {
+    #ifdef DEBUG
+        std::cout << "Hud clean\n";
+    #endif
+    SDL_FreeSurface(p1hbar);
+    SDL_FreeSurface(p2hbar);
+    SDL_FreeSurface(p1hframe);
+    SDL_FreeSurface(p2hframe);
+    SDL_FreeSurface(p1win);
+    SDL_FreeSurface(p2win);
+    SDL_FreeSurface(start);
+
+    #ifdef DEBUG
+        std::cout << "Hud clean finish\n";
+    #endif
+};
+
+void Hud::draw(int winner) {
+    #ifdef DEBUG
+        std::cout << "Hud draw\n";
+    #endif
     SDL_BlitSurface(p1hframe, NULL, gameData->buffer, &p1hcoord);
     SDL_BlitSurface(p2hframe, NULL, gameData->buffer, &p2hcoord);
     SDL_Rect tp1bar = buildRect(0, 0, (unsigned int)((p1hcoord.w/100.0)*(float)p1->getHealth()), p1hcoord.h);
@@ -53,6 +81,15 @@ void Hud::draw() {
     if (p2->getHealth()>1)
         SDL_BlitSurface(p2hbar, &tp2bar, gameData->buffer, &tp2coord);
         
-    if (gameData->frame > START_DELAY-START_SHOW_DELAY && gameData->frame < START_DELAY)
+    if (gameData->gameFrame > START_DELAY-START_SHOW_DELAY && gameData->gameFrame < START_DELAY)
         SDL_BlitSurface(start, NULL, gameData->buffer, NULL);
+        
+    if (winner == 1)
+        SDL_BlitSurface(p1win, NULL, gameData->buffer, NULL);
+    if (winner == 2)
+        SDL_BlitSurface(p2win, NULL, gameData->buffer, NULL);
+        
+    #ifdef DEBUG
+        std::cout << "Hud draw finish\n";
+    #endif
 }

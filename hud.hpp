@@ -30,6 +30,8 @@ class Hud {
         SDL_Surface* p2hframe;
         SDL_Surface* p1hbar;
         SDL_Surface* p2hbar;
+        SDL_Surface* p1win;
+        SDL_Surface* p2win;
         SDL_Surface* start;
         Player* p1;
         Player* p2;
@@ -37,7 +39,8 @@ class Hud {
     public:
         Hud(GameData* igameData, Player* ip1, Player*ip2);
         Hud();
-        void draw();
+        void clean();
+        void draw(int winner=0);
 };
 
 #endif

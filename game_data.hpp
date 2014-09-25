@@ -32,6 +32,7 @@ class GameData {
         bool running;
         std::string name;
         unsigned int frame;
+        unsigned int gameFrame;
 };
 
 #endif

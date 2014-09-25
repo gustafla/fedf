@@ -37,7 +37,9 @@ class Game {
         unsigned int starttimer;
 	public:
 		Game(GameData* igameData, Stage istage, Player player1, Player player2/*, unsigned int timer*/);
+		~Game();
 		void update();
+        bool isFinished();
 };
 
 #endif

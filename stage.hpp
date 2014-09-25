@@ -33,6 +33,7 @@ class Stage {
         unsigned int getFloor();
         void draw();
         Stage(GameData* igameData, std::string bgFileName, unsigned int ifloor=(HEIGHT-64));
+        void clean();
 };
 
 #endif

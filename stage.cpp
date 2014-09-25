@@ -22,11 +22,23 @@ This file is part of Fedora Fighters.
 #include "config.hpp"
 #include <SDL/SDL.h>
 #include <string>
+#include <iostream>
 
 Stage::Stage(GameData* igameData, std::string bgFileName, unsigned int ifloor):
 gameData(igameData),
 floor(ifloor) {
    file2surface(bgFileName, &bg); 
+}
+
+void Stage::clean() {
+    #ifdef DEBUG
+        std::cout << "Stage clean\n";
+    #endif
+    SDL_FreeSurface(bg);
+    
+    #ifdef DEBUG
+        std::cout << "Stage clean finish\n";
+    #endif
 }
 
 void Stage::draw() {

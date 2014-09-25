@@ -18,20 +18,52 @@ This file is part of Fedora Fighters.
 
 #include "game.hpp"
 #include <SDL/SDL.h>
+#include <iostream>
 #include "game_data.hpp"
 #include "player.hpp"
 #include "stage.hpp"
 
 Game::Game(GameData* igameData, Stage istage, Player player1, Player player2):
 stage(istage),
+wintimer(WIN_DELAY),
+winner(0),
 gameData(igameData) {
+    #ifdef DEBUG
+        std::cout << "Game constructor\n";
+    #endif
     players.push_back(player1);
     players.push_back(player2);
     gameData->stageFloor = istage.getFloor();
     hud = Hud(igameData, &players[0], &players[1]);
+    igameData->gameFrame = 0;
+    #ifdef DEBUG
+        std::cout << "Game constructor finish\n";
+    #endif
+}
+
+Game::~Game() {
+    stage.clean();
+    players[0].clean();
+    players[1].clean();
+    hud.clean();
 }
 
 void Game::update() {
+    #ifdef DEBUG
+        std::cout << "Game update\n";
+    #endif
+    
+    if (gameData->gameFrame > START_DELAY-START_SHOW_DELAY) {
+        if (!players[0].isActive() && players[0].getHealth() != 0) {
+            players[0].start();
+        }
+        if (!players[1].isActive() && players[1].getHealth() != 0) {
+            players[1].start();
+        }
+    };
+    
+    
+    
     for(int pushc=0; pushc<16; pushc++) {
         if ((players[0].getCoord().x+players[0].getCoord().w >= players[1].getCoord().x) &&
             (players[0].getCoord().x+players[0].getCoord().w <= players[1].getCoord().x+players[1].getCoord().w) &&
@@ -57,9 +89,39 @@ void Game::update() {
     }
     
 	stage.draw();
-	for (int index=0; index<players.size(); index++)
-		players[index].update();
-    hud.draw();
-    /*if (players[0].getHealth() == 0 && players[1].getHealth() == 0)
-    re*/
+    players[0].update();
+    players[1].update();
+    hud.draw(winner);
+    
+    #ifdef DEBUG
+        std::cout << "Game update checking if dead\n";
+    #endif
+    if (players[0].getHealth() == 0) {
+        players[0].stop();
+        winner=2;
+    }
+    else if (players[1].getHealth() == 0) {
+        players[1].stop();
+        winner=1;
+    }
+    
+    #ifdef DEBUG
+        std::cout << "Game update damage test\n";
+    #endif
+    players[1].takeDamage(1);
+    
+    gameData->gameFrame++;
+    
+    #ifdef DEBUG
+        std::cout << "Game update finish\n";
+    #endif
+}
+
+bool Game::isFinished() {
+    if (winner != 0)
+        if (wintimer <= 0)
+            return true;
+        else
+            wintimer--;
+    return false;
 }
