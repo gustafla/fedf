@@ -32,7 +32,9 @@ class Game {
 		std::vector<Player> players;
 		Stage stage;
 		Hud hud;
-		
+		unsigned int winner;
+		unsigned int wintimer;
+        unsigned int starttimer;
 	public:
 		Game(GameData* igameData, Stage istage, Player player1, Player player2/*, unsigned int timer*/);
 		void update();

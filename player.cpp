@@ -28,9 +28,10 @@ Player::Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bo
 health(ihealth),
 gameData(igameData),
 controls(icontrols),
+canAttack(false),
 fall(0),
 jump(0),
-speed(4),
+speed(6),
 right(iright) {
     file2surface(ispritename, &sprite);
     coord.x = spawn.x;
@@ -49,6 +50,14 @@ void Player::takeDamage(unsigned int amnt) {
 
 SDL_Rect Player::getCoord() {
     return coord;
+}
+
+void Player::start() {
+    canAttack = true;
+}
+
+void Player::push(int vec) {
+    coord.x += vec;
 }
 
 void Player::update() {

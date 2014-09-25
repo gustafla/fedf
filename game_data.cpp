@@ -21,6 +21,7 @@ This file is part of Fedora Fighters.
 
 GameData::GameData(SDL_Surface* screen):
 running(true),
+frame(0),
 name("Fedora Fighters") {
     #ifndef DBHACK
         buffer = screen;

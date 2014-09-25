@@ -49,3 +49,7 @@ PlayerControls const PLAYER2_CONTROLS = {
 };
 
 unsigned int const SPLASH_DELAY = 4000;
+
+unsigned int const WIN_DELAY = 60*3;
+unsigned int const START_DELAY = 60*3;
+unsigned int const START_SHOW_DELAY = 60*1;

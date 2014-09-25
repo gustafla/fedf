@@ -120,6 +120,7 @@ int main(int argc, char* argv[]) {
 				std::cout << "Target framerate not achieved! If this message repeats, your computer is not fast enough for intended gameplay!\n";
             frames = 0;
         }
+        gameData.frame++;
 	}
 	
 	SDL_Quit();

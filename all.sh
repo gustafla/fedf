@@ -16,3 +16,5 @@ make win32dbhack
 make clean
 make win32windbhack
 make clean
+make win32winbenchmark
+make clean

@@ -32,10 +32,34 @@ gameData(igameData) {
 }
 
 void Game::update() {
+    for(int pushc=0; pushc<16; pushc++) {
+        if ((players[0].getCoord().x+players[0].getCoord().w >= players[1].getCoord().x) &&
+            (players[0].getCoord().x+players[0].getCoord().w <= players[1].getCoord().x+players[1].getCoord().w) &&
+            (players[0].getCoord().y+players[0].getCoord().h >= players[1].getCoord().y) &&
+            (players[0].getCoord().y+players[0].getCoord().h <= players[1].getCoord().y+players[1].getCoord().h))
+            players[0].push(-1);
+        else if ((players[0].getCoord().x <= players[1].getCoord().x+players[1].getCoord().w) &&
+                (players[0].getCoord().x >= players[1].getCoord().x) &&
+                (players[0].getCoord().y+players[0].getCoord().h >= players[1].getCoord().y) &&
+                (players[0].getCoord().y+players[0].getCoord().h <= players[1].getCoord().y+players[1].getCoord().h))
+            players[0].push(1);
+        
+        if ((players[1].getCoord().x+players[1].getCoord().w >= players[0].getCoord().x) &&
+            (players[1].getCoord().x+players[1].getCoord().w <= players[0].getCoord().x+players[0].getCoord().w) &&
+            (players[1].getCoord().y+players[1].getCoord().h >= players[0].getCoord().y) &&
+            (players[1].getCoord().y+players[1].getCoord().h <= players[0].getCoord().y+players[0].getCoord().h))
+            players[1].push(-1);
+        else if ((players[1].getCoord().x <= players[0].getCoord().x+players[0].getCoord().w) &&
+                (players[1].getCoord().x >= players[0].getCoord().x) &&
+                (players[1].getCoord().y+players[1].getCoord().h >= players[0].getCoord().y) &&
+                (players[1].getCoord().y+players[1].getCoord().h <= players[0].getCoord().y+players[0].getCoord().h))
+            players[1].push(1);
+    }
+    
 	stage.draw();
 	for (int index=0; index<players.size(); index++)
 		players[index].update();
     hud.draw();
-    players[0].takeDamage(1);
-    players[1].takeDamage(1);
+    /*if (players[0].getHealth() == 0 && players[1].getHealth() == 0)
+    re*/
 }

@@ -32,4 +32,8 @@ extern PlayerControls const PLAYER2_CONTROLS;
 
 extern unsigned int const SPLASH_DELAY;
 
+extern unsigned int const WIN_DELAY;
+extern unsigned int const START_DELAY;
+extern unsigned int const START_SHOW_DELAY;
+
 #endif

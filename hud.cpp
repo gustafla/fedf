@@ -34,6 +34,7 @@ p2hcoord(buildRect((WIDTH/2)+32, 32, ((WIDTH/2)-20-32), 32)) {
     file2surface("gfx/health2frame.png", &p2hframe);
     file2surface("gfx/health1bars.png", &p1hbar);
     file2surface("gfx/health2bars.png", &p2hbar);
+    file2surface("gfx/fight.png", &start);
 }
 
 Hud::Hud() {
@@ -51,4 +52,7 @@ void Hud::draw() {
         SDL_BlitSurface(p1hbar, &tp1bar, gameData->buffer, &p1hcoord);
     if (p2->getHealth()>1)
         SDL_BlitSurface(p2hbar, &tp2bar, gameData->buffer, &tp2coord);
+        
+    if (gameData->frame > START_DELAY-START_SHOW_DELAY && gameData->frame < START_DELAY)
+        SDL_BlitSurface(start, NULL, gameData->buffer, NULL);
 }

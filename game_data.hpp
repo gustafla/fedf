@@ -31,6 +31,7 @@ class GameData {
         Uint8* keystate;
         bool running;
         std::string name;
+        unsigned int frame;
 };
 
 #endif

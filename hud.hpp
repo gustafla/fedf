@@ -30,6 +30,7 @@ class Hud {
         SDL_Surface* p2hframe;
         SDL_Surface* p1hbar;
         SDL_Surface* p2hbar;
+        SDL_Surface* start;
         Player* p1;
         Player* p2;
         GameData* gameData;
