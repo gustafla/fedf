@@ -20,6 +20,7 @@ This file is part of Fedora Fighters.
 #define UTIL_HPP
 
 #include <string>
+#include <vector>
 #include <SDL/SDL.h>
 
 bool isdigits(std::string &s);
@@ -29,5 +30,6 @@ void checkValueParamf(int n, int argc, char* argv[]);
 bool loadFile(std::string inFileName, std::string& outString, int linesize=4096);
 bool fexists(std::string const);
 SDL_Rect buildRect(int x, int y, int w, int h);
+bool listDir(std::string dir, std::vector<std::string>* names);
 
 #endif

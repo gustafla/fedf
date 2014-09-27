@@ -21,12 +21,14 @@ This file is part of Fedora Fighters.
 #include "player_controls.hpp"
 #include "config.hpp"
 #include "util.hpp"
+#include "character.hpp"
 #include <SDL/SDL.h>
 #include <iostream>
 
-Player::Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, std::string ispritename):
+Player::Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, Character icharacter):
 health(100),
 gameData(igameData),
+character(icharacter),
 controls(icontrols),
 active(false),
 fall(0),
@@ -36,7 +38,6 @@ right(iright) {
     #ifdef DEBUG
         std::cout << "Player constructor\n";
     #endif
-    file2surface(ispritename, &sprite);
     coord.x = spawn.x;
     coord.y = spawn.y;
     coord.w = 64;
@@ -50,7 +51,6 @@ void Player::clean() {
     #ifdef DEBUG
         std::cout << "Player clean\n";
     #endif
-    SDL_FreeSurface(sprite);
     
     #ifdef DEBUG
         std::cout << "Player clean finish\n";
@@ -144,7 +144,7 @@ void Player::update() {
         coord.x = WIDTH-coord.w;
     
     SDL_Rect sRect = buildRect(0, 0, coord.w, coord.h);
-    SDL_BlitSurface(sprite, &sRect, gameData->buffer, &coord);
+    SDL_BlitSurface(character.pic, &sRect, gameData->buffer, &coord);
     
     #ifdef DEBUG
         std::cout << "Player update finish\n";

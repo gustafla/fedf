@@ -53,3 +53,8 @@ unsigned int const SPLASH_DELAY = 4000;
 unsigned int const WIN_DELAY = 60*3;
 unsigned int const START_DELAY = 60*3;
 unsigned int const START_SHOW_DELAY = 60*1;
+unsigned int const CHARACTER_SELECT_DELAY = 60/2;
+
+std::string const CHARACTERS_DIR = "./characters/";
+std::string const CHARACTER_PIC_FILE = "/pic.png";
+//std::string const CHARACTER_SPRITE_FILE = "/pic.png";

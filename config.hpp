@@ -35,5 +35,8 @@ extern unsigned int const SPLASH_DELAY;
 extern unsigned int const WIN_DELAY;
 extern unsigned int const START_DELAY;
 extern unsigned int const START_SHOW_DELAY;
+extern unsigned int const CHARACTER_SELECT_DELAY;
 
+extern std::string const CHARACTERS_DIR;
+extern std::string const CHARACTER_PIC_FILE;
 #endif

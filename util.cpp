@@ -23,6 +23,9 @@ This file is part of Fedora Fighters.
 #include <iostream>
 #include <string>
 #include <SDL/SDL.h>
+#include <vector>
+#include <sys/types.h>
+#include <dirent.h>
 
 #define ARGERR "Go fix ur parameters\n"
 
@@ -104,4 +107,22 @@ SDL_Rect buildRect(int x, int y, int w, int h) {
     t.w=w;
     t.h=h;
     return t;
+}
+
+bool listDir(std::string dir, std::vector<std::string>* names) {
+	DIR* dp;
+	dirent *ep;
+	std::string tmp;
+	
+	dp = opendir(dir.c_str());
+	if (dp != NULL) {
+		while (ep = readdir(dp)) {
+			tmp = ep->d_name;
+			if (tmp != "." && tmp != "..")
+				names->push_back(tmp);
+		}
+		closedir(dp);
+	} else
+		return false;
+	return true;
 }

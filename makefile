@@ -18,7 +18,7 @@
 #    along with Fedora Fighters, see COPYING. If not, see <http://www.gnu.org/licenses/>.
 #
 
-SRCS=main.cpp gfxutil.cpp stage.cpp game_data.cpp util.cpp player.cpp config.cpp game.cpp hud.cpp menu.cpp
+SRCS=main.cpp gfxutil.cpp stage.cpp game_data.cpp util.cpp player.cpp config.cpp game.cpp hud.cpp menu.cpp character.cpp
 TARGET=fedf
 CFLAGS=
 INCLUDES=-I./

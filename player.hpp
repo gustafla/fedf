@@ -27,9 +27,10 @@ This file is part of Fedora Fighters.
 class Player {
     private:
         GameData* gameData;
+        Character character;
         int health;
         int speed;
-        SDL_Surface* sprite;
+        
         SDL_Rect coord;
         
         int fall;
@@ -41,7 +42,7 @@ class Player {
         bool active;
         
     public:
-        Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, std::string ispritename);
+        Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, Character icharacter);
         void clean();
         unsigned int getHealth();
         void takeDamage(unsigned int amnt);
