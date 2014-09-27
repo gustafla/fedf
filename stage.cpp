@@ -24,8 +24,9 @@ This file is part of Fedora Fighters.
 #include <string>
 #include <iostream>
 
-Stage::Stage(GameData* igameData, std::string bgFileName, unsigned int ifloor):
+Stage::Stage(GameData* igameData, std::string iname, std::string bgFileName, unsigned int ifloor):
 gameData(igameData),
+name(iname),
 floor(ifloor) {
    file2surface(bgFileName, &bg); 
 }
@@ -47,4 +48,12 @@ void Stage::draw() {
 
 unsigned int Stage::getFloor() {
     return floor;
+}
+
+std::string Stage::getName() {
+    return name;
+}
+
+SDL_Surface* Stage::getBG() {
+    return bg;
 }

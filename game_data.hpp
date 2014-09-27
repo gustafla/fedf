@@ -21,8 +21,6 @@ This file is part of Fedora Fighters.
 
 #include <SDL/SDL.h>
 #include <string>
-#include "character.hpp"
-#include <vector>
 
 class GameData {
     public:
@@ -35,7 +33,6 @@ class GameData {
         std::string name;
         unsigned int frame;
         unsigned int gameFrame;
-        std::vector<Character> characters;
 };
 
 #endif

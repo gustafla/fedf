@@ -36,7 +36,12 @@ extern unsigned int const WIN_DELAY;
 extern unsigned int const START_DELAY;
 extern unsigned int const START_SHOW_DELAY;
 extern unsigned int const CHARACTER_SELECT_DELAY;
+extern unsigned int const STAGE_SELECT_DELAY;
 
 extern std::string const CHARACTERS_DIR;
 extern std::string const CHARACTER_PIC_FILE;
+
+extern std::string const STAGES_DIR;
+extern std::string const STAGE_BG_FILE;
+
 #endif

@@ -3,6 +3,7 @@ fedf*
 a.out
 gfx/
 characters/
+stages/
 *.dll
 COPYING
 stdout.txt

@@ -21,6 +21,7 @@ This file is part of Fedora Fighters.
 
 #include <SDL/SDL.h>
 #include "config.hpp"
+#include "character.hpp"
 #include "game_data.hpp"
 #include "player_controls.hpp"
 

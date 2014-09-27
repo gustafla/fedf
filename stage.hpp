@@ -29,11 +29,14 @@ class Stage {
         SDL_Surface* bg;
         GameData* gameData;
         unsigned int floor;
+        std::string name;
     public:
         unsigned int getFloor();
         void draw();
-        Stage(GameData* igameData, std::string bgFileName, unsigned int ifloor=(HEIGHT-64));
+        Stage(GameData* igameData, std::string iname, std::string bgFileName, unsigned int ifloor=(HEIGHT-64));
         void clean();
+        std::string getName();
+        SDL_Surface* getBG();
 };
 
 #endif

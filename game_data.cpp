@@ -17,12 +17,7 @@ This file is part of Fedora Fighters.
 */
 
 #include <SDL/SDL.h>
-#include <vector>
-#include <cstdlib>
-#include <iostream>
 #include "game_data.hpp"
-#include "util.hpp"
-#include "config.hpp"
 
 GameData::GameData(SDL_Surface* screen):
 running(true),
@@ -43,13 +38,5 @@ name("Fedora Fighters") {
         );
     #endif
     
-    std::vector<std::string> characterDirList;
-    if (listDir(CHARACTERS_DIR, &characterDirList)) {
-		for (int i=0; i<characterDirList.size(); i++) {
-			characters.push_back(Character(characterDirList[i], CHARACTERS_DIR+characterDirList[i]+CHARACTER_PIC_FILE));
-		}
-	} else {
-		std::cout << "Something went wrong parsing characters.\n";
-		exit(-4);
-	}
+    
 }
