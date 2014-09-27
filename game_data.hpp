@@ -27,7 +27,7 @@ class GameData {
         GameData(SDL_Surface* screen);
         SDL_Surface* buffer;
         unsigned int stageFloor;
-        SDL_Event gameDataEvent;
+        SDL_Event gameEvent;
         Uint8* keystate;
         bool running;
         std::string name;

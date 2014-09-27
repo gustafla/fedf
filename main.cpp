@@ -22,11 +22,13 @@ This file is part of Fedora Fighters.
 #include "gfxutil.hpp"
 #include "config.hpp"
 #include "player.hpp"
+#include "menu.hpp"
 #include "util.hpp"
 #include <SDL/SDL.h>
 #include <string>
 #include <iostream>
 #include <vector>
+#include <cstdlib>
 
 void doSplashScreen(GameData* gameData, SDL_Surface* screen) {
 	SDL_Surface* splash;
@@ -74,12 +76,9 @@ int main(int argc, char* argv[]) {
     
     doSplashScreen(&gameData, screen);
 
-	Game* game = new Game(
-		&gameData,
-		Stage(&gameData, "gfx/test.png"),
-		Player(&gameData, PLAYER1_CONTROLS, buildRect(10, 100, 64, 64), true, "gfx/playertest.png"),
-		Player(&gameData, PLAYER2_CONTROLS, buildRect(WIDTH-10-64, 100, 64, 64), false, "gfx/playertest.png")
-	);
+	Game* game = NULL;
+	Menu* menu = new Menu(&gameData, true);
+	bool inMenu = true;
 
     unsigned int timeLast;
     int delay = 0;
@@ -89,27 +88,31 @@ int main(int argc, char* argv[]) {
     while (gameData.running)
 	{	
         timeLast = SDL_GetTicks();
-		SDL_PollEvent(&gameData.gameDataEvent);
+		SDL_PollEvent(&gameData.gameEvent);
         gameData.keystate = SDL_GetKeyState(NULL);
 		
-		if (gameData.gameDataEvent.type == SDL_QUIT) gameData.running = false;
+		if (gameData.gameEvent.type == SDL_QUIT) gameData.running = false;
 
-		if (gameData.gameDataEvent.type == SDL_KEYDOWN)
+		if (gameData.gameEvent.type == SDL_KEYDOWN)
 		{
-			if (gameData.gameDataEvent.key.keysym.sym == SDLK_ESCAPE)
+			if (gameData.gameEvent.key.keysym.sym == SDLK_ESCAPE)
 				gameData.running = false;
 		}
-
-		game->update();
-        if (game->isFinished()) {
-            delete game;
-            game = new Game(
-                &gameData,
-                Stage(&gameData, "gfx/test.png"),
-                Player(&gameData, PLAYER1_CONTROLS, buildRect(10, 100, 64, 64), true, "gfx/playertest.png"),
-                Player(&gameData, PLAYER2_CONTROLS, buildRect(WIDTH-10-64, 100, 64, 64), false, "gfx/playertest.png")
-            );
-        }
+		
+		if (inMenu) {
+			game = menu->update();
+			if (game != NULL) {
+				inMenu = false;
+				delete menu;
+			}
+		} else {
+			game->update();
+			if (game->isFinished()) {
+				delete game;
+				menu = new Menu(&gameData);
+				inMenu = true;
+			}
+		}
         
         #ifdef DBHACK
             SDL_BlitSurface(gameData.buffer, NULL, screen, NULL);

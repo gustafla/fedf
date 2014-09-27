@@ -24,8 +24,8 @@ This file is part of Fedora Fighters.
 #include <SDL/SDL.h>
 #include <iostream>
 
-Player::Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, std::string ispritename, int ihealth):
-health(ihealth),
+Player::Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, std::string ispritename):
+health(100),
 gameData(igameData),
 controls(icontrols),
 active(false),

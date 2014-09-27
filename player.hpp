@@ -41,7 +41,7 @@ class Player {
         bool active;
         
     public:
-        Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, std::string ispritename, int ihealth=100);
+        Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, std::string ispritename);
         void clean();
         unsigned int getHealth();
         void takeDamage(unsigned int amnt);
