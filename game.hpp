@@ -35,6 +35,10 @@ class Game {
 		unsigned int winner;
 		unsigned int wintimer;
         unsigned int starttimer;
+        bool paused;
+        bool wantExit;
+        unsigned int pauseKeyDelay;
+        SDL_Surface* pausedSceen;
 	public:
 		Game(GameData* igameData, Stage istage, Player player1, Player player2/*, unsigned int timer*/);
 		~Game();

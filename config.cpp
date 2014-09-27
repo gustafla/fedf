@@ -48,6 +48,10 @@ PlayerControls const PLAYER1_CONTROLS = {
     SDLK_v          //b
 };
 
+SDLKey const PAUSE_KEY = SDLK_ESCAPE;
+unsigned int const PAUSE_KEY_DELAY = 60/4;
+SDLKey const CONFIRM_KEY = SDLK_RETURN;
+
 unsigned int const SPLASH_DELAY = 4000;
 
 unsigned int const WIN_DELAY = 60*3;

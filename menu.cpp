@@ -5,6 +5,7 @@
 #include "config.hpp"
 #include <cstdlib>
 #include <iostream>
+#include <SDL/SDL.h>
 
 Menu::Menu(GameData* igameData, bool title):
 gameData(igameData),
@@ -55,6 +56,12 @@ Menu::~Menu() {
 }
 
 Game* Menu::update() {
+	if (gameData->gameEvent.type == SDL_KEYDOWN)
+		{
+			if (gameData->gameEvent.key.keysym.sym == SDLK_ESCAPE)
+				gameData->running = false;
+		}
+	
 	switch (screenAt) {
 		case TITLE_SCREEN: {
 			SDL_BlitSurface(titleScreen, NULL, gameData->buffer, NULL);

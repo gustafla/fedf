@@ -30,6 +30,10 @@ extern unsigned int const HEIGHT;
 extern PlayerControls const PLAYER1_CONTROLS;
 extern PlayerControls const PLAYER2_CONTROLS;
 
+extern SDLKey const PAUSE_KEY;
+extern unsigned int const PAUSE_KEY_DELAY;
+extern SDLKey const CONFIRM_KEY;
+
 extern unsigned int const SPLASH_DELAY;
 
 extern unsigned int const WIN_DELAY;

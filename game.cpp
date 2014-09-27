@@ -22,11 +22,15 @@ This file is part of Fedora Fighters.
 #include "game_data.hpp"
 #include "player.hpp"
 #include "stage.hpp"
+#include "gfxutil.hpp"
 
 Game::Game(GameData* igameData, Stage istage, Player player1, Player player2):
 stage(istage),
 wintimer(WIN_DELAY),
 winner(0),
+pauseKeyDelay(0),
+wantExit(false),
+paused(false),
 gameData(igameData) {
     #ifdef DEBUG
         std::cout << "Game constructor\n";
@@ -36,6 +40,7 @@ gameData(igameData) {
     gameData->stageFloor = istage.getFloor();
     hud = Hud(igameData, &players[0], &players[1]);
     igameData->gameFrame = 0;
+    file2surface("gfx/paused.png", &pausedSceen);
     #ifdef DEBUG
         std::cout << "Game constructor finish\n";
     #endif
@@ -46,6 +51,7 @@ Game::~Game() {
     players[0].clean();
     players[1].clean();
     hud.clean();
+    SDL_FreeSurface(pausedSceen);
 }
 
 void Game::update() {
@@ -62,55 +68,72 @@ void Game::update() {
         }
     };
     
+    if (pauseKeyDelay != 0)
+		pauseKeyDelay--;
     
-    
-    for(int pushc=0; pushc<16; pushc++) {
-        if ((players[0].getCoord().x+players[0].getCoord().w >= players[1].getCoord().x) &&
-            (players[0].getCoord().x+players[0].getCoord().w <= players[1].getCoord().x+players[1].getCoord().w) &&
-            (players[0].getCoord().y+players[0].getCoord().h >= players[1].getCoord().y) &&
-            (players[0].getCoord().y+players[0].getCoord().h <= players[1].getCoord().y+players[1].getCoord().h))
-            players[0].push(-1);
-        else if ((players[0].getCoord().x <= players[1].getCoord().x+players[1].getCoord().w) &&
-                (players[0].getCoord().x >= players[1].getCoord().x) &&
-                (players[0].getCoord().y+players[0].getCoord().h >= players[1].getCoord().y) &&
-                (players[0].getCoord().y+players[0].getCoord().h <= players[1].getCoord().y+players[1].getCoord().h))
-            players[0].push(1);
-        
-        if ((players[1].getCoord().x+players[1].getCoord().w >= players[0].getCoord().x) &&
-            (players[1].getCoord().x+players[1].getCoord().w <= players[0].getCoord().x+players[0].getCoord().w) &&
-            (players[1].getCoord().y+players[1].getCoord().h >= players[0].getCoord().y) &&
-            (players[1].getCoord().y+players[1].getCoord().h <= players[0].getCoord().y+players[0].getCoord().h))
-            players[1].push(-1);
-        else if ((players[1].getCoord().x <= players[0].getCoord().x+players[0].getCoord().w) &&
-                (players[1].getCoord().x >= players[0].getCoord().x) &&
-                (players[1].getCoord().y+players[1].getCoord().h >= players[0].getCoord().y) &&
-                (players[1].getCoord().y+players[1].getCoord().h <= players[0].getCoord().y+players[0].getCoord().h))
-            players[1].push(1);
-    }
-    
-	stage.draw();
-    players[0].update();
-    players[1].update();
-    hud.draw(winner);
-    
-    #ifdef DEBUG
-        std::cout << "Game update checking if dead\n";
-    #endif
-    if (players[0].getHealth() == 0) {
-        players[0].stop();
-        winner=2;
-    }
-    else if (players[1].getHealth() == 0) {
-        players[1].stop();
-        winner=1;
-    }
-    
-    #ifdef DEBUG
-        std::cout << "Game update damage test\n";
-    #endif
-    players[1].takeDamage(1);
-    
-    gameData->gameFrame++;
+    if (paused) {
+		SDL_BlitSurface(pausedSceen, NULL, gameData->buffer, NULL);
+		if (pauseKeyDelay == 0 && gameData->keystate[PAUSE_KEY]) {
+			pauseKeyDelay = PAUSE_KEY_DELAY;
+			paused = false;
+		}
+		if (gameData->keystate[CONFIRM_KEY])
+			wantExit = true;
+	} else {
+		
+		if (pauseKeyDelay == 0 && gameData->keystate[PAUSE_KEY]) {
+			paused = true;
+			pauseKeyDelay = PAUSE_KEY_DELAY;
+		}
+		
+		for(int pushc=0; pushc<16; pushc++) {
+			if ((players[0].getCoord().x+players[0].getCoord().w >= players[1].getCoord().x) &&
+				(players[0].getCoord().x+players[0].getCoord().w <= players[1].getCoord().x+players[1].getCoord().w) &&
+				(players[0].getCoord().y+players[0].getCoord().h >= players[1].getCoord().y) &&
+				(players[0].getCoord().y+players[0].getCoord().h <= players[1].getCoord().y+players[1].getCoord().h))
+				players[0].push(-1);
+			else if ((players[0].getCoord().x <= players[1].getCoord().x+players[1].getCoord().w) &&
+					(players[0].getCoord().x >= players[1].getCoord().x) &&
+					(players[0].getCoord().y+players[0].getCoord().h >= players[1].getCoord().y) &&
+					(players[0].getCoord().y+players[0].getCoord().h <= players[1].getCoord().y+players[1].getCoord().h))
+				players[0].push(1);
+			
+			if ((players[1].getCoord().x+players[1].getCoord().w >= players[0].getCoord().x) &&
+				(players[1].getCoord().x+players[1].getCoord().w <= players[0].getCoord().x+players[0].getCoord().w) &&
+				(players[1].getCoord().y+players[1].getCoord().h >= players[0].getCoord().y) &&
+				(players[1].getCoord().y+players[1].getCoord().h <= players[0].getCoord().y+players[0].getCoord().h))
+				players[1].push(-1);
+			else if ((players[1].getCoord().x <= players[0].getCoord().x+players[0].getCoord().w) &&
+					(players[1].getCoord().x >= players[0].getCoord().x) &&
+					(players[1].getCoord().y+players[1].getCoord().h >= players[0].getCoord().y) &&
+					(players[1].getCoord().y+players[1].getCoord().h <= players[0].getCoord().y+players[0].getCoord().h))
+				players[1].push(1);
+		}
+		
+		stage.draw();
+		players[0].update();
+		players[1].update();
+		hud.draw(winner);
+		
+		#ifdef DEBUG
+			std::cout << "Game update checking if dead\n";
+		#endif
+		if (players[0].getHealth() == 0) {
+			players[0].stop();
+			winner=2;
+		}
+		else if (players[1].getHealth() == 0) {
+			players[1].stop();
+			winner=1;
+		}
+		
+		#ifdef DEBUG
+			std::cout << "Game update damage test\n";
+		#endif
+		players[1].takeDamage(1);
+		
+		gameData->gameFrame++;
+	}
     
     #ifdef DEBUG
         std::cout << "Game update finish\n";
@@ -118,6 +141,8 @@ void Game::update() {
 }
 
 bool Game::isFinished() {
+	if (wantExit)
+		return true;
     if (winner != 0)
         if (wintimer <= 0)
             return true;

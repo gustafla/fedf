@@ -92,12 +92,6 @@ int main(int argc, char* argv[]) {
         gameData.keystate = SDL_GetKeyState(NULL);
 		
 		if (gameData.gameEvent.type == SDL_QUIT) gameData.running = false;
-
-		if (gameData.gameEvent.type == SDL_KEYDOWN)
-		{
-			if (gameData.gameEvent.key.keysym.sym == SDLK_ESCAPE)
-				gameData.running = false;
-		}
 		
 		if (inMenu) {
 			game = menu->update();
