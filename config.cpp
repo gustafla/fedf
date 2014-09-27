@@ -24,13 +24,13 @@ This file is part of Fedora Fighters.
 #ifdef DEBUG
     std::string const VERSION = "debug build";
 #else
-    std::string const VERSION = "0.1 alpha";
+    std::string const VERSION = "0.2 alpha";
 #endif
 
 unsigned int const WIDTH = 640;
 unsigned int const HEIGHT = 480;
 
-PlayerControls const PLAYER1_CONTROLS = {
+PlayerControls const PLAYER2_CONTROLS = {
     SDLK_UP,        //jump
     SDLK_DOWN,      //crouch
     SDLK_LEFT,      //left
@@ -39,7 +39,7 @@ PlayerControls const PLAYER1_CONTROLS = {
     SDLK_l          //b
 };
 
-PlayerControls const PLAYER2_CONTROLS = {
+PlayerControls const PLAYER1_CONTROLS = {
     SDLK_w,         //jump
     SDLK_s,         //crouch
     SDLK_a,         //left

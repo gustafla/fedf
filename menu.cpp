@@ -135,10 +135,10 @@ Game* Menu::update() {
 			
 			if (gameData->keystate[PLAYER1_CONTROLS.A] && playerStageIDelay == 0)
 				return new Game(
-						gameData,
-						stages[playerStageSelection],
-						Player(gameData, PLAYER1_CONTROLS, buildRect(20, 0, 64, 64), true, characters[playerCharacterSelection[0]]),
-						Player(gameData, PLAYER2_CONTROLS, buildRect(WIDTH-20-64, 0, 64, 64), false, characters[playerCharacterSelection[1]])
+					gameData,
+					stages[playerStageSelection],
+					Player(gameData, PLAYER1_CONTROLS, buildRect(20, 0, 64, 64), true, characters[playerCharacterSelection[0]]),
+					Player(gameData, PLAYER2_CONTROLS, buildRect(WIDTH-20-64, 0, 64, 64), false, characters[playerCharacterSelection[1]])
 				);
 		} break;
 	}
