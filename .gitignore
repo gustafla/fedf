@@ -1,6 +1,8 @@
 *.o
 fedf*
+a.out
 gfx/
+characters/
 *.dll
 COPYING
 stdout.txt
