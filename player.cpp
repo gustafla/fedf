@@ -42,6 +42,8 @@ right(iright) {
     coord.y = spawn.y;
     coord.w = 64;
     coord.h = 64;
+    
+    file2surface("gfx/plshadow.png", &shadow);
     #ifdef DEBUG
         std::cout << "Player constructor finish\n";
     #endif
@@ -51,7 +53,7 @@ void Player::clean() {
     #ifdef DEBUG
         std::cout << "Player clean\n";
     #endif
-    
+    SDL_FreeSurface(shadow);
     #ifdef DEBUG
         std::cout << "Player clean finish\n";
     #endif
@@ -140,13 +142,21 @@ void Player::update() {
     
     if (coord.x < 0)
         coord.x = 0;
+    if (coord.y <= 0)
+        coord.y = 1;
     if (coord.x+coord.w > WIDTH)
         coord.x = WIDTH-coord.w;
-    
-    SDL_Rect sRect = buildRect(0, 0, coord.w, coord.h);
-    SDL_BlitSurface(character.pic, &sRect, gameData->buffer, &coord);
     
     #ifdef DEBUG
         std::cout << "Player update finish\n";
     #endif
+}
+
+void Player::drawShadow() {
+	SDL_Rect shadowRect = buildRect(coord.x, gameData->stageFloor-16, 64, 32);
+    SDL_BlitSurface(shadow, NULL, gameData->buffer, &shadowRect);
+}
+
+void Player::draw() {
+	SDL_BlitSurface(character.pic, NULL, gameData->buffer, &coord);
 }

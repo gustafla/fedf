@@ -113,6 +113,10 @@ void Game::update() {
 		stage.draw();
 		players[0].update();
 		players[1].update();
+		players[0].drawShadow();
+		players[1].drawShadow();
+		players[0].draw();
+		players[1].draw();
 		hud.draw(winner);
 		
 		#ifdef DEBUG
@@ -126,12 +130,7 @@ void Game::update() {
 			players[1].stop();
 			winner=1;
 		}
-		
-		#ifdef DEBUG
-			std::cout << "Game update damage test\n";
-		#endif
-		players[1].takeDamage(1);
-		
+
 		gameData->gameFrame++;
 	}
     

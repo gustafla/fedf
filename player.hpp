@@ -33,6 +33,7 @@ class Player {
         int speed;
         
         SDL_Rect coord;
+        SDL_Surface* shadow;
         
         int fall;
         int jump;
@@ -49,6 +50,8 @@ class Player {
         void takeDamage(unsigned int amnt);
         SDL_Rect getCoord();
         void update();
+        void drawShadow();
+        void draw();
         void start();
         void stop();
         bool isActive();
