@@ -23,13 +23,15 @@ This file is part of Fedora Fighters.
 #include "config.hpp"
 #include <SDL/SDL.h>
 #include <iostream>
+#include <cstdlib>
 
 Hud::Hud(GameData* igameData, Player* ip1, Player* ip2):
 p1(ip1),
 p2(ip2),
 gameData(igameData),
 p1hcoord(buildRect(20, 32, ((WIDTH/2)-20-32), 32)),
-p2hcoord(buildRect((WIDTH/2)+32, 32, ((WIDTH/2)-20-32), 32)) {
+p2hcoord(buildRect((WIDTH/2)+32, 32, ((WIDTH/2)-20-32), 32)),
+bgcoord(buildRect(0, 16, 640, 64)) {
     #ifdef DEBUG
         std::cout << "Hud constructor\n";
     #endif
@@ -37,6 +39,7 @@ p2hcoord(buildRect((WIDTH/2)+32, 32, ((WIDTH/2)-20-32), 32)) {
     file2surface("gfx/health2frame.png", &p2hframe);
     file2surface("gfx/health1bars.png", &p1hbar);
     file2surface("gfx/health2bars.png", &p2hbar);
+    file2surface("gfx/hudbg.png", &bg);
     file2surface("gfx/fight.png", &start);
     file2surface("gfx/p1win.png", &p1win);
     file2surface("gfx/p2win.png", &p2win);
@@ -60,6 +63,7 @@ void Hud::clean() {
     SDL_FreeSurface(p1win);
     SDL_FreeSurface(p2win);
     SDL_FreeSurface(start);
+    SDL_FreeSurface(bg);
 
     #ifdef DEBUG
         std::cout << "Hud clean finish\n";
@@ -70,6 +74,7 @@ void Hud::draw(int winner) {
     #ifdef DEBUG
         std::cout << "Hud draw\n";
     #endif
+    SDL_BlitSurface(bg, NULL, gameData->buffer, &bgcoord);
     SDL_BlitSurface(p1hframe, NULL, gameData->buffer, &p1hcoord);
     SDL_BlitSurface(p2hframe, NULL, gameData->buffer, &p2hcoord);
     SDL_Rect tp1bar = buildRect(0, 0, (unsigned int)((p1hcoord.w/100.0)*(float)p1->getHealth()), p1hcoord.h);
@@ -81,8 +86,11 @@ void Hud::draw(int winner) {
     if (p2->getHealth()>1)
         SDL_BlitSurface(p2hbar, &tp2bar, gameData->buffer, &tp2coord);
         
-    if (gameData->gameFrame > START_DELAY-START_SHOW_DELAY && gameData->gameFrame < START_DELAY)
-        SDL_BlitSurface(start, NULL, gameData->buffer, NULL);
+    if (gameData->gameFrame > START_DELAY-START_SHOW_DELAY && gameData->gameFrame < START_DELAY) {
+        SDL_Rect startsrc = buildRect(int((float(rand()%100000)/100000.0)*float(gameData->gameFrame)*0.1), int((float(rand()%100000)/100000.0)*float(gameData->gameFrame)*0.1), 640, 480);
+        SDL_Rect startdst = buildRect(int((float(rand()%100000)/100000.0)*float(gameData->gameFrame)*0.1), int((float(rand()%100000)/100000.0)*float(gameData->gameFrame)*0.1), 640, 480);
+        SDL_BlitSurface(start, &startsrc, gameData->buffer, &startdst);
+    }
         
     if (winner == 1)
         SDL_BlitSurface(p1win, NULL, gameData->buffer, NULL);

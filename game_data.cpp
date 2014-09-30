@@ -17,11 +17,18 @@ This file is part of Fedora Fighters.
 */
 
 #include <SDL/SDL.h>
+#include <cmath>
+#include <iostream>
 #include "game_data.hpp"
+#include "gfxutil.hpp"
+#include "util.hpp"
+#include "config.hpp"
 
 GameData::GameData(SDL_Surface* screen):
 running(true),
 frame(0),
+inTransition(false),
+postTransition(false),
 name("Fedora Fighters") {
     #ifndef DBHACK
         buffer = screen;
@@ -38,5 +45,33 @@ name("Fedora Fighters") {
         );
     #endif
     
-    
+    file2surface("gfx/transition.png", &transition);
+    transitionDest = buildRect(WIDTH, 0, TRANSITION_WIDTH, 480);
+    transitionSrc = buildRect(0, 0, TRANSITION_WIDTH, 480);
+    transitionx = WIDTH;
+}
+
+bool GameData::drawTransition() {
+	SDL_BlitSurface(transition, &transitionSrc, buffer, &transitionDest);
+	transitionx += X_TRANSITION_VEC;
+	transitionDest.x += X_TRANSITION_VEC;
+	if (transitionx<=0)
+		transitionSrc.x = abs(transitionx);
+	if (transitionx < ((int)TRANSITION_WIDTH)*(-1)) {
+		transitionDest.x = WIDTH;
+		transitionx = WIDTH;
+		transitionSrc.x = 0;
+		inTransition = false;
+		postTransition = false;
+		return false;
+	}
+	if (!postTransition && transitionx <= (((((int)TRANSITION_WIDTH)-(int)WIDTH)/2)*(-1))) {
+        #ifdef DEBUG
+            std::cout << "transitionx(" << transitionx << ") <= -((TRANSITION_WIDTH-WIDTH)/2)(" << (((((int)TRANSITION_WIDTH)-(int)WIDTH)/2)*(-1)) << "), so returning true.\n";
+            std::cout << "TRANSITION_WIDTH: " << TRANSITION_WIDTH << "\n";
+        #endif
+		postTransition=true;
+		return true;
+	}
+	return false;
 }

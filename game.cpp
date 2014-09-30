@@ -73,12 +73,14 @@ void Game::update() {
     
     if (paused) {
 		SDL_BlitSurface(pausedSceen, NULL, gameData->buffer, NULL);
-		if (pauseKeyDelay == 0 && gameData->keystate[PAUSE_KEY]) {
-			pauseKeyDelay = PAUSE_KEY_DELAY;
-			paused = false;
-		}
-		if (gameData->keystate[CONFIRM_KEY])
-			wantExit = true;
+        if (!gameData->inTransition) {
+            if (pauseKeyDelay == 0 && gameData->keystate[PAUSE_KEY]) {
+                pauseKeyDelay = PAUSE_KEY_DELAY;
+                paused = false;
+            }
+            if (gameData->keystate[CONFIRM_KEY])
+                wantExit = true;
+        }
 	} else {
 		
 		if (pauseKeyDelay == 0 && gameData->keystate[PAUSE_KEY]) {
@@ -140,12 +142,16 @@ void Game::update() {
 }
 
 bool Game::isFinished() {
-	if (wantExit)
-		return true;
-    if (winner != 0)
+	if (!gameData->inTransition && wantExit)
+		gameData->inTransition = true;
+    if (!wantExit && winner != 0) {
         if (wintimer <= 0)
-            return true;
+            wantExit = true;
         else
             wintimer--;
+    }
+    if (gameData->inTransition)
+        if (gameData->drawTransition())
+            return true;
     return false;
 }

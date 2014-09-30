@@ -24,11 +24,12 @@ This file is part of Fedora Fighters.
 #ifdef DEBUG
     std::string const VERSION = "debug build";
 #else
-    std::string const VERSION = "0.2 alpha";
+    std::string const VERSION = "0.3 alpha";
 #endif
 
 unsigned int const WIDTH = 640;
 unsigned int const HEIGHT = 480;
+unsigned int const FPS = 60;
 
 PlayerControls const PLAYER2_CONTROLS = {
     SDLK_UP,        //jump
@@ -62,7 +63,12 @@ unsigned int const STAGE_SELECT_DELAY = 60/8;
 
 std::string const CHARACTERS_DIR = "./characters/";
 std::string const CHARACTER_PIC_FILE = "/pic.png";
-//std::string const CHARACTER_SPRITE_FILE = "/pic.png";
+std::string const CHARACTER_SPRITE_FILE = "/sprite.png";
+
+std::string const ANIM_CONF_FILE = "/anim.conf";
 
 std::string const STAGES_DIR = "./stages/";
 std::string const STAGE_BG_FILE = "/bg.png";
+
+int const X_TRANSITION_VEC = -14;
+int const TRANSITION_WIDTH = 1140;

@@ -44,6 +44,7 @@ void doSplashScreen(GameData* gameData, SDL_Surface* screen) {
 
 int main(int argc, char* argv[]) {
     atexit(SDL_Quit);
+    srand(609);
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1)
         return -1;
 	
@@ -113,7 +114,7 @@ int main(int argc, char* argv[]) {
         #endif
 		SDL_Flip(screen);
         #ifndef BENCHMARK
-            delay = (1000/60 - (SDL_GetTicks() - timeLast));
+            delay = (1000/FPS - (SDL_GetTicks() - timeLast));
             SDL_Delay(delay < 0 ? 0 : delay);
         #endif
         
@@ -122,7 +123,7 @@ int main(int argc, char* argv[]) {
             fpsLast=SDL_GetTicks();
             fps = frames/10.0;
             std::cout << "FPS: " << fps << std::endl;
-            if (fps<55.0)
+            if (fps<FPS-5)
 				std::cout << "Target framerate not achieved! If this message repeats, your computer is not fast enough for intended gameplay!\n";
             frames = 0;
         }

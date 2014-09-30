@@ -49,7 +49,7 @@ screenAt(CHARACTER_SCREEN) {
 	std::vector<std::string> characterDirList;
     if (listDir(CHARACTERS_DIR, &characterDirList)) {
 		for (int i=0; i<characterDirList.size(); i++) {
-			characters.push_back(Character(characterDirList[i], CHARACTERS_DIR+characterDirList[i]+CHARACTER_PIC_FILE));
+			characters.push_back(Character(igameData, characterDirList[i], CHARACTERS_DIR+characterDirList[i]));
 		}
 	} else {
 		std::cout << "Something went wrong parsing characters.\n";
@@ -63,7 +63,7 @@ screenAt(CHARACTER_SCREEN) {
 		}
 	} else {
 		std::cout << "Something went wrong parsing stages.\n";
-		exit(-4);
+		exit(-5);
 	}
 }
 
@@ -83,12 +83,23 @@ Game* Menu::update() {
 	switch (screenAt) {
 		case TITLE_SCREEN: {
 			SDL_BlitSurface(titleScreen, NULL, gameData->buffer, NULL);
-			if (gameData->gameEvent.type == SDL_KEYDOWN)
-				screenAt = CHARACTER_SCREEN;
+			if (!gameData->inTransition && gameData->gameEvent.type == SDL_KEYDOWN) {
+				gameData->inTransition=true;
+				#ifdef DEBUG
+					std::cout << "Key pressed in title screen.\n";
+				#endif
+			}
+			if (gameData->inTransition) {
+				#ifdef DEBUG
+					std::cout << "Trying to draw transition.\n";
+				#endif
+				if(gameData->drawTransition())
+					screenAt = CHARACTER_SCREEN;
+			}
 		} break; case CHARACTER_SCREEN: {
 			
-			SDL_Rect tpcoord[2] = {buildRect(WIDTH/4-32, HEIGHT/2-32, 0, 0), buildRect((WIDTH/4)*3-32, HEIGHT/2-32, 0, 0)};
-			SDL_Rect okcoord[2] = {buildRect(WIDTH/4-32, HEIGHT/2+32, 0, 0), buildRect((WIDTH/4)*3-32, HEIGHT/2+32, 0, 0)};
+			SDL_Rect tpcoord[2] = {buildRect(WIDTH/4-64, HEIGHT/2-64, 0, 0), buildRect((WIDTH/4)*3-64, HEIGHT/2-64, 0, 0)};
+			SDL_Rect okcoord[2] = {buildRect(WIDTH/4-32, (HEIGHT/4)*3, 0, 0), buildRect((WIDTH/4)*3-32, (HEIGHT/4)*3, 0, 0)};
 			PlayerControls controls[2] = {PLAYER1_CONTROLS, PLAYER2_CONTROLS};
 			
 			SDL_BlitSurface(characterSelectBG, NULL, gameData->buffer, NULL);
@@ -101,30 +112,38 @@ Game* Menu::update() {
 	
 				if (playerCharacterDone[pl])
 					SDL_BlitSurface(ok, NULL, gameData->buffer, &okcoord[pl]);
-				
-				if (gameData->keystate[controls[pl].LEFT] && !playerCharacterDone[pl] && playerCharacterDelay[pl]==0) {
-					if (playerCharacterSelection[pl] == 0)
-						playerCharacterSelection[pl] = characters.size()-1;
-					else
-						playerCharacterSelection[pl]--;
-					playerCharacterDelay[pl] = CHARACTER_SELECT_DELAY;
+					
+				if (!gameData->inTransition) {
+					if (gameData->keystate[controls[pl].LEFT] && !playerCharacterDone[pl] && playerCharacterDelay[pl]==0) {
+						if (playerCharacterSelection[pl] == 0)
+							playerCharacterSelection[pl] = characters.size()-1;
+						else
+							playerCharacterSelection[pl]--;
+						playerCharacterDelay[pl] = CHARACTER_SELECT_DELAY;
+					}
+					if (gameData->keystate[controls[pl].RIGHT] && !playerCharacterDone[pl] && playerCharacterDelay[pl]==0) {
+						if (playerCharacterSelection[pl] == characters.size()-1)
+							playerCharacterSelection[pl] = 0;
+						else
+							playerCharacterSelection[pl]++;
+						playerCharacterDelay[pl] = CHARACTER_SELECT_DELAY;
+					}
+					if (gameData->keystate[controls[pl].A])
+						playerCharacterDone[pl] = true;
+					if (gameData->keystate[controls[pl].B])
+						playerCharacterDone[pl] = false;
 				}
-				if (gameData->keystate[controls[pl].RIGHT] && !playerCharacterDone[pl] && playerCharacterDelay[pl]==0) {
-					if (playerCharacterSelection[pl] == characters.size()-1)
-						playerCharacterSelection[pl] = 0;
-					else
-						playerCharacterSelection[pl]++;
-					playerCharacterDelay[pl] = CHARACTER_SELECT_DELAY;
-				}
-				if (gameData->keystate[controls[pl].A])
-					playerCharacterDone[pl] = true;
-				if (gameData->keystate[controls[pl].B])
-					playerCharacterDone[pl] = false;
 			}
 			
-			if (playerCharacterDone[0] && playerCharacterDone[1]) {
-				screenAt = STAGE_SCREEN;
-				playerStageIDelay = 60;
+			if (!gameData->inTransition && playerCharacterDone[0] && playerCharacterDone[1]) {
+				gameData->inTransition=true;
+			}
+			
+			if (gameData->inTransition) {
+				if (gameData->drawTransition()) {
+					screenAt = STAGE_SCREEN;
+					playerStageIDelay = 60;
+				}
 			}
 		} break; case STAGE_SCREEN: {
 			SDL_BlitSurface(stages[playerStageSelection].getBG(), NULL, gameData->buffer, NULL);
@@ -133,38 +152,43 @@ Game* Menu::update() {
 				playerStageDelay--;
 			if (playerStageIDelay != 0)
 				playerStageIDelay--;
+			if (!gameData->inTransition) {
+				if (gameData->keystate[PLAYER1_CONTROLS.LEFT] && playerStageDelay == 0) {
+						if (playerStageSelection == 0)
+							playerStageSelection = stages.size()-1;
+						else
+							playerStageSelection--;
+						playerStageDelay = STAGE_SELECT_DELAY;
+				}
+				if (gameData->keystate[PLAYER1_CONTROLS.RIGHT] && playerStageDelay == 0) {
+						if (playerStageSelection == stages.size()-1)
+							playerStageSelection = 0;
+						else
+							playerStageSelection++;
+						playerStageDelay = STAGE_SELECT_DELAY;
+				}
+				
+				if (gameData->keystate[PLAYER1_CONTROLS.B]) {
+					screenAt = CHARACTER_SCREEN;
+					playerCharacterDone[0] = false;
+				}
+				if (gameData->keystate[PLAYER2_CONTROLS.B]) {
+					screenAt = CHARACTER_SCREEN;
+					playerCharacterDone[1] = false;
+				}
+				
+				if (gameData->keystate[PLAYER1_CONTROLS.A] && playerStageIDelay == 0)
+					gameData->inTransition=true;
+			}
 			
-			if (gameData->keystate[PLAYER1_CONTROLS.LEFT] && playerStageDelay == 0) {
-					if (playerStageSelection == 0)
-						playerStageSelection = stages.size()-1;
-					else
-						playerStageSelection--;
-					playerStageDelay = STAGE_SELECT_DELAY;
-			}
-			if (gameData->keystate[PLAYER1_CONTROLS.RIGHT] && playerStageDelay == 0) {
-					if (playerStageSelection == stages.size()-1)
-						playerStageSelection = 0;
-					else
-						playerStageSelection++;
-					playerStageDelay = STAGE_SELECT_DELAY;
-			}
-			
-			if (gameData->keystate[PLAYER1_CONTROLS.B]) {
-				screenAt = CHARACTER_SCREEN;
-				playerCharacterDone[0] = false;
-			}
-			if (gameData->keystate[PLAYER2_CONTROLS.B]) {
-				screenAt = CHARACTER_SCREEN;
-				playerCharacterDone[1] = false;
-			}
-			
-			if (gameData->keystate[PLAYER1_CONTROLS.A] && playerStageIDelay == 0)
-				return new Game(
-					gameData,
-					stages[playerStageSelection],
-					Player(gameData, PLAYER1_CONTROLS, buildRect(20, 0, 64, 64), true, characters[playerCharacterSelection[0]]),
-					Player(gameData, PLAYER2_CONTROLS, buildRect(WIDTH-20-64, 0, 64, 64), false, characters[playerCharacterSelection[1]])
-				);
+			if (gameData->inTransition)
+				if (gameData->drawTransition())
+					return new Game(
+						gameData,
+						stages[playerStageSelection],
+						Player(gameData, PLAYER1_CONTROLS, buildRect(20, 0, 64, 64), true, characters[playerCharacterSelection[0]]),
+						Player(gameData, PLAYER2_CONTROLS, buildRect(WIDTH-20-64, 0, 64, 64), false, characters[playerCharacterSelection[1]])
+					);
 		} break;
 	}
 	return NULL;

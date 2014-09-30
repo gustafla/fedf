@@ -24,6 +24,7 @@ This file is part of Fedora Fighters.
 #include "character.hpp"
 #include "game_data.hpp"
 #include "player_controls.hpp"
+#include "animated_sprite.hpp"
 
 class Player {
     private:
@@ -34,14 +35,18 @@ class Player {
         
         SDL_Rect coord;
         SDL_Surface* shadow;
+        AnimatedSprite* sprite;
         
         int fall;
         int jump;
+        int xjump;
         bool right;
         
         PlayerControls controls;
         
         bool active;
+        
+        bool moved;
         
     public:
         Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, Character icharacter);

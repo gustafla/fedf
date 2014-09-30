@@ -26,6 +26,7 @@ This file is part of Fedora Fighters.
 extern std::string const VERSION;
 extern unsigned int const WIDTH;
 extern unsigned int const HEIGHT;
+extern unsigned int const FPS;
 
 extern PlayerControls const PLAYER1_CONTROLS;
 extern PlayerControls const PLAYER2_CONTROLS;
@@ -44,8 +45,14 @@ extern unsigned int const STAGE_SELECT_DELAY;
 
 extern std::string const CHARACTERS_DIR;
 extern std::string const CHARACTER_PIC_FILE;
+extern std::string const CHARACTER_SPRITE_FILE;
+
+extern std::string const ANIM_CONF_FILE;
 
 extern std::string const STAGES_DIR;
 extern std::string const STAGE_BG_FILE;
+
+extern int const X_TRANSITION_VEC;
+extern int const TRANSITION_WIDTH;
 
 #endif

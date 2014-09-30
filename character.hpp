@@ -21,12 +21,15 @@ This file is part of Fedora Fighters.
 
 #include <SDL/SDL.h>
 #include <string>
+#include <vector>
+#include "game_data.hpp"
 
 class Character {
 	public:
 		std::string name;
+		std::string dir;
 		SDL_Surface* pic;
-		Character(std::string name, std::string picf);
+		Character(GameData* igameData, std::string name, std::string idir);
 };
 
 #endif

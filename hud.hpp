@@ -26,8 +26,10 @@ class Hud {
     private:
         SDL_Rect p1hcoord;
         SDL_Rect p2hcoord;
+        SDL_Rect bgcoord;
         SDL_Surface* p1hframe;
         SDL_Surface* p2hframe;
+        SDL_Surface* bg;
         SDL_Surface* p1hbar;
         SDL_Surface* p2hbar;
         SDL_Surface* p1win;

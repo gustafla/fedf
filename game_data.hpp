@@ -26,6 +26,10 @@ class GameData {
     public:
         GameData(SDL_Surface* screen);
         SDL_Surface* buffer;
+        SDL_Surface* transition;
+        SDL_Rect transitionDest;
+        SDL_Rect transitionSrc;
+        int transitionx;
         unsigned int stageFloor;
         SDL_Event gameEvent;
         Uint8* keystate;
@@ -33,6 +37,9 @@ class GameData {
         std::string name;
         unsigned int frame;
         unsigned int gameFrame;
+        bool drawTransition();
+        bool inTransition;
+        bool postTransition;
 };
 
 #endif

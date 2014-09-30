@@ -31,8 +31,10 @@ gameData(igameData),
 character(icharacter),
 controls(icontrols),
 active(false),
+moved(false),
 fall(0),
 jump(0),
+xjump(0),
 speed(6),
 right(iright) {
     #ifdef DEBUG
@@ -44,6 +46,9 @@ right(iright) {
     coord.h = 64;
     
     file2surface("gfx/plshadow.png", &shadow);
+    
+    sprite = new AnimatedSprite(igameData, icharacter.dir, CHARACTER_SPRITE_FILE);
+    
     #ifdef DEBUG
         std::cout << "Player constructor finish\n";
     #endif
@@ -54,6 +59,7 @@ void Player::clean() {
         std::cout << "Player clean\n";
     #endif
     SDL_FreeSurface(shadow);
+    delete sprite;
     #ifdef DEBUG
         std::cout << "Player clean finish\n";
     #endif
@@ -98,6 +104,7 @@ void Player::update() {
     if (fall > 0) {
         coord.y += fall;
         fall++;
+        moved = true;
         #ifdef DEBUG
             std::cout << "Falling...\n";
         #endif
@@ -106,37 +113,48 @@ void Player::update() {
         fall = 0;
         coord.y -= jump;
         jump--;
+        moved = true;
         #ifdef DEBUG
             std::cout << "Jumping...\n";
         #endif
     }
+    coord.x+=xjump;
     if (coord.y+coord.h > gameData->stageFloor) {
         fall = 0;
         jump = 0;
+        xjump = 0;
         coord.y = gameData->stageFloor-coord.h;
+        moved = false;
         #ifdef DEBUG
             std::cout << "Fell to ground...\n";
         #endif
     }
     if ((fall == 0) && (jump == 0) && (coord.y+coord.h < gameData->stageFloor)) {
         fall=1;
+        moved=true;
         #ifdef DEBUG
             std::cout << "Now falling...\n";
         #endif
     }
     
     if (active) {
-        if (gameData->keystate[controls.LEFT]) {
-            right=false;
+        if (gameData->keystate[controls.LEFT] && jump==0 && fall==0) {
+            moved = true;
             if (coord.x > 0)
                 coord.x-=speed;
-        } if (gameData->keystate[controls.RIGHT]) {
-            right=true;
+        } if (gameData->keystate[controls.RIGHT] && jump==0 && fall==0) {
+            moved = true;
             if (coord.x+coord.w < WIDTH)
                 coord.x+=speed;
         } if (gameData->keystate[controls.JUMP]) {
-            if (jump == 0 && fall == 0)
-                jump=16;
+            if (jump == 0 && fall == 0) {
+                moved = true;
+                jump = 16;
+                if (gameData->keystate[controls.RIGHT])
+					xjump = speed;
+				if (gameData->keystate[controls.LEFT])
+					xjump = -speed;
+			}
         }
     }
     
@@ -146,6 +164,11 @@ void Player::update() {
         coord.y = 1;
     if (coord.x+coord.w > WIDTH)
         coord.x = WIDTH-coord.w;
+    
+    if (!moved)
+        sprite->hold();
+        
+    moved = false;
     
     #ifdef DEBUG
         std::cout << "Player update finish\n";
@@ -158,5 +181,6 @@ void Player::drawShadow() {
 }
 
 void Player::draw() {
-	SDL_BlitSurface(character.pic, NULL, gameData->buffer, &coord);
+    SDL_Rect animSrc = sprite->getFrame();
+	SDL_BlitSurface(sprite->getSurface(), &animSrc, gameData->buffer, &coord);
 }
