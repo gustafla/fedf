@@ -31,7 +31,9 @@ class Player {
         GameData* gameData;
         Character character;
         int health;
-        int speed;
+        unsigned int speed;
+        unsigned int jumpSpeed;
+        unsigned int jumpPower;
         
         SDL_Rect coord;
         SDL_Surface* shadow;
@@ -61,6 +63,7 @@ class Player {
         void stop();
         bool isActive();
         void push(int vec);
+        SDL_Surface* getPic();
 };
 
 #endif

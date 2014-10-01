@@ -29,11 +29,15 @@ frameWidth(iframeWidth) {
     }
     
     if (lines.size()<2) {
-        std::cout << dir+ANIM_CONF_FILE << " incorrect.\n";
+        std::cout << dir+ANIM_CONF_FILE << " incorrect, no rows specified.\n";
         exit(-7);
     }
     
     fpsDiv = atoi(lines[0].c_str());
+    if (fpsDiv < 1) {
+        std::cout << dir+ANIM_CONF_FILE << " incorrect, frame divider can't be less than 1.\n";
+        exit(-8);
+    }
     
     for (unsigned int i=1; i<lines.size(); i++) {
         rowsLengths.push_back(atoi(lines[i].c_str()));

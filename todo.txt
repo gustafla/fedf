@@ -1,0 +1,12 @@
+- Tason leveys 1200 (STAGE_WIDTH)
+    - Ota kummankin pelaajan x keskiarvo, poista siitä WIDTH/2. Jos (tulos < 0) screenRect.x=0; Jos (tulos > WIDTH-screenRect.w) screenRect.x=STAGE_WIDTH-WIDTH
+    - Pelaajien rajoiksi screenRect.x, screenRect.x+WIDTH
+    - Korkeus 600-800 ja suunnilleen sama toteutus?
+- Varjon kutistuminen kun hyppää
+    - Varjosta ohuempi ja elliptinen väriliuku
+- Idle-animaatio
+- Pienemmät hitboxit?
+    - Isommat hahmospritet?
+- Hudiin pelaajien hahmojen pic
+- Kaikkiin filuihin GPL, myös binääri.
+- Lisää vakioita (PLAYER_HB_WIDTH, PLAYER_HB_HEIGHT, PLAYER_SPRITE...)

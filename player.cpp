@@ -35,7 +35,9 @@ moved(false),
 fall(0),
 jump(0),
 xjump(0),
-speed(6),
+speed(4),
+jumpSpeed(6),
+jumpPower(18),
 right(iright) {
     #ifdef DEBUG
         std::cout << "Player constructor\n";
@@ -94,6 +96,10 @@ void Player::push(int vec) {
     coord.x += vec;
 }
 
+SDL_Surface* Player::getPic() {
+    return character.pic;
+}
+
 void Player::update() {
     #ifdef DEBUG
         std::cout << "Player update\n";
@@ -149,7 +155,7 @@ void Player::update() {
         } if (gameData->keystate[controls.JUMP]) {
             if (jump == 0 && fall == 0) {
                 moved = true;
-                jump = 16;
+                jump = jumpPower;
                 if (gameData->keystate[controls.RIGHT])
 					xjump = speed;
 				if (gameData->keystate[controls.LEFT])
