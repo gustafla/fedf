@@ -31,6 +31,7 @@ class GameData {
         SDL_Rect transitionSrc;
         int transitionx;
         unsigned int stageFloor;
+        unsigned int stageHeight;
         SDL_Event gameEvent;
         Uint8* keystate;
         bool running;
@@ -40,6 +41,7 @@ class GameData {
         bool drawTransition();
         bool inTransition;
         bool postTransition;
+        SDL_Rect screenRect;
 };
 
 #endif

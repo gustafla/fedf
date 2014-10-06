@@ -43,6 +43,20 @@ void doSplashScreen(GameData* gameData, SDL_Surface* screen) {
 }
 
 int main(int argc, char* argv[]) {
+    std::cout << "Copyright 2014 Lauri Gustafsson, Kalle Korhonen and Julius Heino.\nFedora Fighters " << VERSION << std::endl << std::endl <<
+    "Fedora Fighters is free software: you can redistribute it and/or modify\n" <<
+    "it under the terms of the GNU General Public License as published by\n" <<
+    "the Free Software Foundation, either version 3 of the License, or\n" <<
+    "(at your option) any later version.\n" <<
+    "\n" <<
+    "Fedora Fighters is distributed in the hope that it will be useful,\n" <<
+    "but WITHOUT ANY WARRANTY; without even the implied warranty of\n" <<
+    "MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the\n" <<
+    "GNU General Public License for more details.\n" <<
+    "\n" <<
+    "You should have received a copy of the GNU General Public License\n" <<
+    "along with Fedora Fighters, see COPYING. If not, see <http://www.gnu.org/licenses/>.\n";
+
     atexit(SDL_Quit);
     srand(609);
 	if (SDL_Init(SDL_INIT_EVERYTHING) == -1)

@@ -23,6 +23,7 @@ This file is part of Fedora Fighters.
 #include "player.hpp"
 #include "stage.hpp"
 #include "gfxutil.hpp"
+#include "util.hpp"
 
 Game::Game(GameData* igameData, Stage istage, Player player1, Player player2):
 stage(istage),
@@ -38,7 +39,11 @@ gameData(igameData) {
     players.push_back(player1);
     players.push_back(player2);
     gameData->stageFloor = istage.getFloor();
-    hud = Hud(igameData, &players[0], &players[1]);
+    gameData->stageHeight = istage.getBG()->h;
+    #ifdef DEBUG
+        std::cout << "Stage height is: " << gameData->stageHeight << std::endl;
+    #endif
+    hud = new Hud(igameData, &players[0], &players[1]);
     igameData->gameFrame = 0;
     file2surface("gfx/paused.png", &pausedSceen);
     #ifdef DEBUG
@@ -50,7 +55,8 @@ Game::~Game() {
     stage.clean();
     players[0].clean();
     players[1].clean();
-    hud.clean();
+    hud->clean();
+    delete hud;
     SDL_FreeSurface(pausedSceen);
 }
 
@@ -88,6 +94,34 @@ void Game::update() {
 			pauseKeyDelay = PAUSE_KEY_DELAY;
 		}
 		
+        if (players[0].getCoord().x > players[1].getCoord().x) {
+            players[0].lookRight(false);
+            players[1].lookRight(true);
+        } else {
+            players[0].lookRight(true);
+            players[1].lookRight(false);
+        }
+        
+        unsigned int plc, prc;
+        if (players[0].lookingRight()) {
+            plc = players[0].getCoord().x;
+            prc = players[1].getCoord().x + players[1].getCoord().w;
+        } else {
+            plc = players[1].getCoord().x;
+            prc = players[0].getCoord().x + players[0].getCoord().w;
+        }
+        int screenRectx = ((plc + prc)/2)-(WIDTH/2);
+        if (screenRectx < 0)
+            screenRectx = 0;
+        if (screenRectx > stage.getBG()->w - WIDTH)
+            screenRectx = stage.getBG()->w - WIDTH;
+        int screenRecty = ((players[0].getCoord().y + players[1].getCoord().y)/2)-(HEIGHT/2);
+        if (screenRecty < 0)
+            screenRecty = 0;
+        if (screenRecty > stage.getBG()->h - HEIGHT)
+            screenRecty = stage.getBG()->h - HEIGHT;
+        gameData->screenRect = buildRect(screenRectx, screenRecty, WIDTH, HEIGHT);
+        
 		for(int pushc=0; pushc<16; pushc++) {
 			if ((players[0].getCoord().x+players[0].getCoord().w >= players[1].getCoord().x) &&
 				(players[0].getCoord().x+players[0].getCoord().w <= players[1].getCoord().x+players[1].getCoord().w) &&
@@ -119,7 +153,7 @@ void Game::update() {
 		players[1].drawShadow();
 		players[0].draw();
 		players[1].draw();
-		hud.draw(winner);
+		hud->draw(winner);
 		
 		#ifdef DEBUG
 			std::cout << "Game update checking if dead\n";

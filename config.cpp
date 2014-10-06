@@ -24,7 +24,7 @@ This file is part of Fedora Fighters.
 #ifdef DEBUG
     std::string const VERSION = "debug build";
 #else
-    std::string const VERSION = "0.3 alpha";
+    std::string const VERSION = "0.5 alpha";
 #endif
 
 unsigned int const WIDTH = 640;
@@ -64,11 +64,14 @@ unsigned int const STAGE_SELECT_DELAY = 60/8;
 std::string const CHARACTERS_DIR = "./characters/";
 std::string const CHARACTER_PIC_FILE = "/pic.png";
 std::string const CHARACTER_SPRITE_FILE = "/sprite.png";
+std::string const CHARACTER_RIGHT_SPRITE_FILE = "/sprite.png";
+std::string const CHARACTER_LEFT_SPRITE_FILE = "/spritel.png";
 
-std::string const ANIM_CONF_FILE = "/anim.conf";
+std::string const ANIM_CONF_FILE = "/anim.cfg";
 
 std::string const STAGES_DIR = "./stages/";
 std::string const STAGE_BG_FILE = "/bg.png";
+std::string const STAGE_CONF_FILE = "/stage.cfg";
 
 int const X_TRANSITION_VEC = -14;
 int const TRANSITION_WIDTH = 1140;

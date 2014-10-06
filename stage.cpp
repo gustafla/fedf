@@ -26,9 +26,13 @@ This file is part of Fedora Fighters.
 
 Stage::Stage(GameData* igameData, std::string iname, std::string bgFileName, unsigned int ifloor):
 gameData(igameData),
-name(iname),
-floor(ifloor) {
+name(iname) {
    file2surface(bgFileName, &bg); 
+   if (bg->w < WIDTH || bg->h < HEIGHT) {
+       std::cout << "Stage " << iname << " bg too small.\n";
+       exit(-9);
+   }
+   floor = bg->h - ifloor;
 }
 
 void Stage::clean() {
@@ -43,7 +47,7 @@ void Stage::clean() {
 }
 
 void Stage::draw() {
-   SDL_BlitSurface(bg, NULL, gameData->buffer, NULL);
+   SDL_BlitSurface(bg, &gameData->screenRect, gameData->buffer, NULL);
 }
 
 unsigned int Stage::getFloor() {

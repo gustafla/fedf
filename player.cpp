@@ -35,8 +35,8 @@ moved(false),
 fall(0),
 jump(0),
 xjump(0),
-speed(4),
-jumpSpeed(6),
+speed(3),
+jumpSpeed(5),
 jumpPower(18),
 right(iright) {
     #ifdef DEBUG
@@ -46,10 +46,11 @@ right(iright) {
     coord.y = spawn.y;
     coord.w = 64;
     coord.h = 64;
+    screenCoord = coord;
     
-    file2surface("gfx/plshadow.png", &shadow);
-    
-    sprite = new AnimatedSprite(igameData, icharacter.dir, CHARACTER_SPRITE_FILE);
+    sprite = new AnimatedSprite(igameData, icharacter.dir, CHARACTER_RIGHT_SPRITE_FILE);
+    file2surface(icharacter.dir+CHARACTER_LEFT_SPRITE_FILE, &spritel);
+    shadow = new AnimatedSprite(igameData, "gfx/shadow", CHARACTER_SPRITE_FILE);
     
     #ifdef DEBUG
         std::cout << "Player constructor finish\n";
@@ -60,8 +61,9 @@ void Player::clean() {
     #ifdef DEBUG
         std::cout << "Player clean\n";
     #endif
-    SDL_FreeSurface(shadow);
     delete sprite;
+    delete shadow;
+    SDL_FreeSurface(spritel);
     #ifdef DEBUG
         std::cout << "Player clean finish\n";
     #endif
@@ -146,30 +148,36 @@ void Player::update() {
     if (active) {
         if (gameData->keystate[controls.LEFT] && jump==0 && fall==0) {
             moved = true;
-            if (coord.x > 0)
-                coord.x-=speed;
+            coord.x-=speed;
         } if (gameData->keystate[controls.RIGHT] && jump==0 && fall==0) {
             moved = true;
-            if (coord.x+coord.w < WIDTH)
-                coord.x+=speed;
+            coord.x+=speed;
         } if (gameData->keystate[controls.JUMP]) {
             if (jump == 0 && fall == 0) {
                 moved = true;
                 jump = jumpPower;
                 if (gameData->keystate[controls.RIGHT])
-					xjump = speed;
+					xjump = jumpSpeed;
 				if (gameData->keystate[controls.LEFT])
-					xjump = -speed;
+					xjump = -jumpSpeed;
 			}
         }
     }
     
-    if (coord.x < 0)
-        coord.x = 0;
+    if (coord.x < gameData->screenRect.x) {
+        coord.x = gameData->screenRect.x;
+        #ifdef DEBUG
+            std::cout << "Player out of left bound, moving.\n";
+        #endif
+    }
     if (coord.y <= 0)
         coord.y = 1;
-    if (coord.x+coord.w > WIDTH)
-        coord.x = WIDTH-coord.w;
+    if (coord.x+coord.w > gameData->screenRect.x+gameData->screenRect.w) {
+        coord.x = gameData->screenRect.x+gameData->screenRect.w-coord.w;
+        #ifdef DEBUG
+            std::cout << "Player out of right bound, moving.\n";
+        #endif
+    }
     
     if (!moved)
         sprite->hold();
@@ -182,11 +190,36 @@ void Player::update() {
 }
 
 void Player::drawShadow() {
-	SDL_Rect shadowRect = buildRect(coord.x, gameData->stageFloor-16, 64, 32);
-    SDL_BlitSurface(shadow, NULL, gameData->buffer, &shadowRect);
+    #ifdef DEBUG
+        int stageFloorPx = (gameData->stageHeight - gameData->stageFloor);
+        std::cout << 4.0-((float(((gameData->stageHeight - stageFloorPx)-(HEIGHT/2))-((gameData->stageHeight-coord.y)/(HEIGHT/2)))/
+                           float((gameData->stageHeight - stageFloorPx)-(HEIGHT/2)))*4.0) << std::endl;
+    #endif
+    if (coord.h+coord.y > (gameData->stageHeight - HEIGHT)+(HEIGHT/2)) {
+        #ifndef DEBUG
+            int stageFloorPx = (gameData->stageHeight - gameData->stageFloor);
+        #endif
+        int xlevel=0;
+        for (int l=0; l < 4; l++)
+            if (coord.h+coord.y > ((gameData->stageHeight - HEIGHT)+(HEIGHT/2))+(((HEIGHT/2)-stageFloorPx)/4)*l)
+                xlevel=3-l;
+        shadow->hold(0, xlevel);
+        SDL_Rect animSrc = shadow->getFrame();
+        SDL_Rect shadowRect = buildRect(coord.x - gameData->screenRect.x, gameData->stageFloor-16  - gameData->screenRect.y, 64, 32);
+        SDL_BlitSurface(shadow->getSurface(), &animSrc, gameData->buffer, &shadowRect);
+    }
 }
 
 void Player::draw() {
+    screenCoord = buildRect(coord.x - gameData->screenRect.x, coord.y - gameData->screenRect.y, coord.w, coord.h);
     SDL_Rect animSrc = sprite->getFrame();
-	SDL_BlitSurface(sprite->getSurface(), &animSrc, gameData->buffer, &coord);
+	SDL_BlitSurface(right ? sprite->getSurface() : spritel, &animSrc, gameData->buffer, &screenCoord);
+}
+
+void Player::lookRight(bool look) {
+    right = look;
+}
+
+bool Player::lookingRight() {
+    return right;
 }

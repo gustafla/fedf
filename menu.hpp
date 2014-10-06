@@ -32,6 +32,7 @@ class Menu {
 		GameData* gameData;
 		SDL_Surface* titleScreen;
 		SDL_Surface* characterSelectBG;
+		SDL_Surface* stageSelectOverlay;
 		SDL_Surface* ok;
 		
 		unsigned int playerCharacterSelection[2];

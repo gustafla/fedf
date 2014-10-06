@@ -22,6 +22,7 @@ This file is part of Fedora Fighters.
 #include "player_controls.hpp"
 #include "config.hpp"
 #include <cstdlib>
+#include <cmath>
 #include <iostream>
 #include <SDL/SDL.h>
 
@@ -41,6 +42,7 @@ screenAt(CHARACTER_SCREEN) {
 	
 	file2surface("gfx/title.png", &titleScreen);
 	file2surface("gfx/characterbg.png", &characterSelectBG);
+	file2surface("gfx/stageseloverlay.png", &stageSelectOverlay);
 	file2surface("gfx/ok.png", &ok);
 	
 	if (title)
@@ -70,6 +72,7 @@ screenAt(CHARACTER_SCREEN) {
 Menu::~Menu() {
 	SDL_FreeSurface(titleScreen);
 	SDL_FreeSurface(characterSelectBG);
+	SDL_FreeSurface(stageSelectOverlay);
 	SDL_FreeSurface(ok);
 }
 
@@ -146,7 +149,9 @@ Game* Menu::update() {
 				}
 			}
 		} break; case STAGE_SCREEN: {
-			SDL_BlitSurface(stages[playerStageSelection].getBG(), NULL, gameData->buffer, NULL);
+            SDL_Rect stagesrc = buildRect((sin(gameData->frame/120.0)*0.5+0.5)*(stages[playerStageSelection].getBG()->w - WIDTH), stages[playerStageSelection].getBG()->h - HEIGHT, WIDTH, HEIGHT);
+			SDL_BlitSurface(stages[playerStageSelection].getBG(), &stagesrc, gameData->buffer, NULL);
+            SDL_BlitSurface(stageSelectOverlay, NULL, gameData->buffer, NULL);
 			
 			if (playerStageDelay != 0)
 				playerStageDelay--;

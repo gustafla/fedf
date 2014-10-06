@@ -31,7 +31,7 @@ class Game {
 		GameData* gameData;
 		std::vector<Player> players;
 		Stage stage;
-		Hud hud;
+		Hud* hud;
 		unsigned int winner;
 		unsigned int wintimer;
         unsigned int starttimer;

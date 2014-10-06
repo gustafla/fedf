@@ -30,9 +30,7 @@ p1(ip1),
 p2(ip2),
 gameData(igameData),
 p1hcoord(buildRect(20, 32, ((WIDTH/2)-20-32), 32)),
-p1pcoord(buildRect(0, 0, 128, 128)),
 p2hcoord(buildRect((WIDTH/2)+32, 32, ((WIDTH/2)-20-32), 32)),
-p2pcoord(buildRect(WIDTH-128, 0, 128, 128)),
 bgcoord(buildRect(0, 16, 640, 64)) {
     #ifdef DEBUG
         std::cout << "Hud constructor\n";
@@ -77,8 +75,6 @@ void Hud::draw(int winner) {
         std::cout << "Hud draw\n";
     #endif
     SDL_BlitSurface(bg, NULL, gameData->buffer, &bgcoord);
-    SDL_BlitSurface(p1->getPic(), NULL, gameData->buffer, &p1pcoord);
-    SDL_BlitSurface(p2->getPic(), NULL, gameData->buffer, &p2pcoord);
     SDL_BlitSurface(p1hframe, NULL, gameData->buffer, &p1hcoord);
     SDL_BlitSurface(p2hframe, NULL, gameData->buffer, &p2hcoord);
     SDL_Rect tp1bar = buildRect(0, 0, (unsigned int)((p1hcoord.w/100.0)*(float)p1->getHealth()), p1hcoord.h);
@@ -91,8 +87,8 @@ void Hud::draw(int winner) {
         SDL_BlitSurface(p2hbar, &tp2bar, gameData->buffer, &tp2coord);
         
     if (gameData->gameFrame > START_DELAY-START_SHOW_DELAY && gameData->gameFrame < START_DELAY) {
-        SDL_Rect startsrc = buildRect(int((float(rand()%100000)/100000.0)*float(gameData->gameFrame)*0.1), int((float(rand()%100000)/100000.0)*float(gameData->gameFrame)*0.1), 640, 480);
-        SDL_Rect startdst = buildRect(int((float(rand()%100000)/100000.0)*float(gameData->gameFrame)*0.1), int((float(rand()%100000)/100000.0)*float(gameData->gameFrame)*0.1), 640, 480);
+        SDL_Rect startsrc = buildRect(int((float(rand()%100000)/100000.0)*float(gameData->gameFrame-(START_DELAY-START_SHOW_DELAY))*0.4), int((float(rand()%100000)/100000.0)*float(gameData->gameFrame-(START_DELAY-START_SHOW_DELAY))*0.4), 640, 480);
+        SDL_Rect startdst = buildRect(int((float(rand()%100000)/100000.0)*float(gameData->gameFrame-(START_DELAY-START_SHOW_DELAY))*0.4), int((float(rand()%100000)/100000.0)*float(gameData->gameFrame-(START_DELAY-START_SHOW_DELAY))*0.4), 640, 480);
         SDL_BlitSurface(start, &startsrc, gameData->buffer, &startdst);
     }
         

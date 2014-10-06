@@ -46,6 +46,8 @@ extern unsigned int const STAGE_SELECT_DELAY;
 extern std::string const CHARACTERS_DIR;
 extern std::string const CHARACTER_PIC_FILE;
 extern std::string const CHARACTER_SPRITE_FILE;
+extern std::string const CHARACTER_RIGHT_SPRITE_FILE;
+extern std::string const CHARACTER_LEFT_SPRITE_FILE;
 
 extern std::string const ANIM_CONF_FILE;
 

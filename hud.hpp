@@ -25,9 +25,7 @@ This file is part of Fedora Fighters.
 class Hud {
     private:
         SDL_Rect p1hcoord;
-        SDL_Rect p1pcoord;
         SDL_Rect p2hcoord;
-        SDL_Rect p2pcoord;
         SDL_Rect bgcoord;
         SDL_Surface* p1hframe;
         SDL_Surface* p2hframe;

@@ -35,9 +35,11 @@ class Player {
         unsigned int jumpSpeed;
         unsigned int jumpPower;
         
+        SDL_Rect screenCoord;
         SDL_Rect coord;
-        SDL_Surface* shadow;
+        AnimatedSprite* shadow;
         AnimatedSprite* sprite;
+        SDL_Surface* spritel;
         
         int fall;
         int jump;
@@ -64,6 +66,8 @@ class Player {
         bool isActive();
         void push(int vec);
         SDL_Surface* getPic();
+        void lookRight(bool look);
+        bool lookingRight();
 };
 
 #endif

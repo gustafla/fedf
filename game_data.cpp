@@ -49,6 +49,8 @@ name("Fedora Fighters") {
     transitionDest = buildRect(WIDTH, 0, TRANSITION_WIDTH, 480);
     transitionSrc = buildRect(0, 0, TRANSITION_WIDTH, 480);
     transitionx = WIDTH;
+    
+    screenRect = buildRect(0, 0, WIDTH, HEIGHT);
 }
 
 bool GameData::drawTransition() {
