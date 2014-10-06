@@ -161,7 +161,9 @@ void Player::update() {
 				if (gameData->keystate[controls.LEFT])
 					xjump = -jumpSpeed;
 			}
-        }
+        } if (gameData->keystate[controls.A]) {
+			sprite->doOnce(2);
+		}
     }
     
     if (coord.x < gameData->screenRect.x) {

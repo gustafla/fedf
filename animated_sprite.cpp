@@ -79,7 +79,7 @@ SDL_Rect AnimatedSprite::getFrame() {
             frameHeight
         );
         xdoAt++;
-        if (xdoAt >= rowsLengths[(rowAt>=rowsLengths.size()) ? rowsLengths.size()-1 : rowAt]) {
+        if (xdoAt >= fpsDiv*(rowsLengths[(rowAt>=rowsLengths.size()) ? rowsLengths.size()-1 : rowAt])) {
             doing = false;
             xdoAt = 0;
             rowAt = 0;
