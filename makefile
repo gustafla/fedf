@@ -112,46 +112,29 @@ linwindbhack: $(TARGET)
 win32: $(TARGET)
 	$(STRIP) --strip-all $(TARGET)
 	upx $(TARGET)
-	cp /opt/win32/bin/SDL.dll ./
-	cp /opt/win32/bin/SDL_image.dll ./
-	cp /opt/win32/bin/zlib1.dll ./
-	cp /opt/win32/bin/libpng*.dll ./
-	cp /opt/win32/bin/SDL_mixer.dll ./
 	@echo "Finished."
 
 win32dbhack: $(TARGET)
 	$(STRIP) --strip-all $(TARGET)
 	upx $(TARGET)
-	cp /opt/win32/bin/SDL.dll ./
-	cp /opt/win32/bin/SDL_image.dll ./
-	cp /opt/win32/bin/zlib1.dll ./
-	cp /opt/win32/bin/libpng*.dll ./
-	cp /opt/win32/bin/SDL_mixer.dll ./
 	@echo "Finished."
 
 win32win: $(TARGET)
 	$(STRIP) --strip-all $(TARGET)
 	upx $(TARGET)
-	cp /opt/win32/bin/SDL.dll ./
-	cp /opt/win32/bin/SDL_image.dll ./
-	cp /opt/win32/bin/zlib1.dll ./
-	cp /opt/win32/bin/libpng*.dll ./
-	cp /opt/win32/bin/SDL_mixer.dll ./
 	@echo "Finished."
 	
 win32winbenchmark: $(TARGET)
 	$(STRIP) --strip-all $(TARGET)
 	upx $(TARGET)
-	cp /opt/win32/bin/SDL.dll ./
-	cp /opt/win32/bin/SDL_image.dll ./
-	cp /opt/win32/bin/zlib1.dll ./
-	cp /opt/win32/bin/libpng*.dll ./
-	cp /opt/win32/bin/SDL_mixer.dll ./
 	@echo "Finished."
 	
 win32windbhack: $(TARGET)
 	$(STRIP) --strip-all $(TARGET)
 	upx $(TARGET)
+	@echo finished
+
+cpdlls:
 	cp /opt/win32/bin/SDL.dll ./
 	cp /opt/win32/bin/SDL_image.dll ./
 	cp /opt/win32/bin/zlib1.dll ./
