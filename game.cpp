@@ -46,6 +46,12 @@ gameData(igameData) {
     hud = new Hud(igameData, &players[0], &players[1]);
     igameData->gameFrame = 0;
     file2surface("gfx/paused.png", &pausedSceen);
+    
+    gameData->music = Mix_LoadMUS((STAGES_DIR+stage.getName()+STAGE_MUSIC_FILE).c_str());
+    if (!gameData->musicPlaying) {
+		Mix_PlayMusic(gameData->music, -1);
+		gameData->musicPlaying = true;
+	}
     #ifdef DEBUG
         std::cout << "Game constructor finish\n";
     #endif
@@ -58,6 +64,9 @@ Game::~Game() {
     hud->clean();
     delete hud;
     SDL_FreeSurface(pausedSceen);
+    gameData->musicPlaying = false;
+    Mix_PlayMusic(gameData->music, 0);
+    Mix_FreeMusic(gameData->music);
 }
 
 void Game::update() {

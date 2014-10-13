@@ -21,13 +21,14 @@ This file is part of Fedora Fighters.
 #include "gfxutil.hpp"
 #include "config.hpp"
 #include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 #include <string>
 #include <iostream>
 
-Stage::Stage(GameData* igameData, std::string iname, std::string bgFileName, unsigned int ifloor):
+Stage::Stage(GameData* igameData, std::string iname, std::string dir, unsigned int ifloor):
 gameData(igameData),
 name(iname) {
-   file2surface(bgFileName, &bg); 
+   file2surface(dir+STAGE_BG_FILE, &bg); 
    if (bg->w < WIDTH || bg->h < HEIGHT) {
        std::cout << "Stage " << iname << " bg too small.\n";
        exit(-9);
@@ -40,7 +41,6 @@ void Stage::clean() {
         std::cout << "Stage clean\n";
     #endif
     SDL_FreeSurface(bg);
-    
     #ifdef DEBUG
         std::cout << "Stage clean finish\n";
     #endif

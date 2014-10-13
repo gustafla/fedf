@@ -20,12 +20,14 @@ This file is part of Fedora Fighters.
 #include "player.hpp"
 #include "player_controls.hpp"
 #include "config.hpp"
+#include "game_data.hpp"
 #include "util.hpp"
 #include "character.hpp"
 #include <SDL/SDL.h>
 #include <iostream>
 
-Player::Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, Character icharacter):
+Player::Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, Character icharacter, unsigned int inumber):
+number(inumber),
 health(100),
 gameData(igameData),
 character(icharacter),
@@ -38,6 +40,7 @@ xjump(0),
 speed(3),
 jumpSpeed(5),
 jumpPower(18),
+attackDelay(0),
 right(iright) {
     #ifdef DEBUG
         std::cout << "Player constructor\n";
@@ -74,8 +77,10 @@ unsigned int Player::getHealth() {
 }
 
 void Player::takeDamage(unsigned int amnt) {
-    if (active)
+    if (active) {
         health -= amnt;
+        //Blit effect here?
+	}
 }
 
 SDL_Rect Player::getCoord() {
@@ -108,6 +113,9 @@ void Player::update() {
     #endif
     if (health < 0)
         health = 0;
+    
+    if (attackDelay != 0)
+		attackDelay--;
     
     if (fall > 0) {
         coord.y += fall;
@@ -161,8 +169,14 @@ void Player::update() {
 				if (gameData->keystate[controls.LEFT])
 					xjump = -jumpSpeed;
 			}
-        } if (gameData->keystate[controls.A]) {
+        } if (gameData->keystate[controls.A] && !attackDelay) {
+			sprite->doOnce(1);
+			gameData->playerMessagePasser[number]=gameData->PUNCH;
+			attackDelay = PUNCH_DELAY;
+		} if (gameData->keystate[controls.B] && !attackDelay) {
 			sprite->doOnce(2);
+			gameData->playerMessagePasser[number]=gameData->KICK;
+			attackDelay = KICK_DELAY;
 		}
     }
     

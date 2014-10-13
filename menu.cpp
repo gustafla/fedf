@@ -61,7 +61,7 @@ screenAt(CHARACTER_SCREEN) {
 	std::vector<std::string> stageDirList;
     if (listDir(STAGES_DIR, &stageDirList)) {
 		for (int i=0; i<stageDirList.size(); i++) {
-			stages.push_back(Stage(igameData, stageDirList[i], STAGES_DIR+stageDirList[i]+STAGE_BG_FILE));
+			stages.push_back(Stage(igameData, stageDirList[i], STAGES_DIR+stageDirList[i]));
 		}
 	} else {
 		std::cout << "Something went wrong parsing stages.\n";

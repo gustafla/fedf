@@ -108,6 +108,10 @@ SDL_Surface* AnimatedSprite::getSurface() {
     return sprite;
 }
 
+unsigned int AnimatedSprite::getRow() {
+	return rowAt;
+}
+
 void AnimatedSprite::doOnce(unsigned int row) {
     doing = true;
     xdoAt = 0;
@@ -120,6 +124,8 @@ void AnimatedSprite::doConstant(unsigned int row) {
 
 void AnimatedSprite::hold(unsigned int row, unsigned int col) {
     holding = true;
-    rowAt = row;
-    xholdAt = col;
+    if (!doing) {
+		rowAt = row;
+		xholdAt = col;
+	}
 }

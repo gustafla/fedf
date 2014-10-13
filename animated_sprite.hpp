@@ -44,6 +44,7 @@ class AnimatedSprite {
         ~AnimatedSprite();
         SDL_Rect getFrame();
         SDL_Surface* getSurface();
+        unsigned int getRow();
         void doOnce(unsigned int row);
         void doConstant(unsigned int row);
         void hold(unsigned int row=0, unsigned int col=0);

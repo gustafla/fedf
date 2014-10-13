@@ -17,6 +17,7 @@ This file is part of Fedora Fighters.
 */
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 #include <cmath>
 #include <iostream>
 #include "game_data.hpp"
@@ -27,6 +28,7 @@ This file is part of Fedora Fighters.
 GameData::GameData(SDL_Surface* screen):
 running(true),
 frame(0),
+musicPlaying(false),
 inTransition(false),
 postTransition(false),
 name("Fedora Fighters") {
@@ -51,6 +53,12 @@ name("Fedora Fighters") {
     transitionx = WIDTH;
     
     screenRect = buildRect(0, 0, WIDTH, HEIGHT);
+    
+    if(Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, (4096*4) ) == -1 )
+    {
+		std::cout << "Can't do audio D:\n";
+        exit(-8);
+    }
 }
 
 bool GameData::drawTransition() {

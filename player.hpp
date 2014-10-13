@@ -28,6 +28,9 @@ This file is part of Fedora Fighters.
 
 class Player {
     private:
+    
+		unsigned int number;
+    
         GameData* gameData;
         Character character;
         int health;
@@ -50,10 +53,12 @@ class Player {
         
         bool active;
         
+        unsigned int attackDelay;
+        
         bool moved;
         
     public:
-        Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, Character icharacter);
+        Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, Character icharacter, unsigned int inumber=0);
         void clean();
         unsigned int getHealth();
         void takeDamage(unsigned int amnt);

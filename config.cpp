@@ -71,7 +71,10 @@ std::string const ANIM_CONF_FILE = "/anim.cfg";
 
 std::string const STAGES_DIR = "./stages/";
 std::string const STAGE_BG_FILE = "/bg.png";
-std::string const STAGE_CONF_FILE = "/stage.cfg";
+std::string const STAGE_MUSIC_FILE = "/music.wav";
 
 int const X_TRANSITION_VEC = -14;
 int const TRANSITION_WIDTH = 1140;
+
+unsigned int const PUNCH_DELAY = 30;
+unsigned int const KICK_DELAY = 40;

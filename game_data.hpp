@@ -20,6 +20,7 @@ This file is part of Fedora Fighters.
 #define GAME_DATA_HPP
 
 #include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 #include <string>
 
 class GameData {
@@ -42,6 +43,9 @@ class GameData {
         bool inTransition;
         bool postTransition;
         SDL_Rect screenRect;
+        enum {NO_MOVE=0, PUNCH, KICK} playerMessagePasser[2];
+        Mix_Music *music;
+        bool musicPlaying;
 };
 
 #endif
