@@ -47,13 +47,12 @@ gameData(igameData) {
     igameData->gameFrame = 0;
     file2surface("gfx/paused.png", &pausedSceen);
     
+    Mix_FreeMusic(gameData->music);
     gameData->music = Mix_LoadMUS((STAGES_DIR+stage.getName()+STAGE_MUSIC_FILE).c_str());
-    if (!gameData->musicPlaying) {
-		Mix_PlayMusic(gameData->music, -1);
-		gameData->musicPlaying = true;
-	}
-    
+	Mix_PlayMusic(gameData->music, -1);
+	gameData->musicPlaying = true;
     Mix_VolumeMusic(MIX_MAX_VOLUME);
+    
     #ifdef DEBUG
         std::cout << "Game constructor finish\n";
     #endif

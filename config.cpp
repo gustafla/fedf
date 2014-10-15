@@ -76,6 +76,8 @@ std::string const STAGES_DIR = "./stages/";
 std::string const STAGE_BG_FILE = "/bg.png";
 std::string const STAGE_MUSIC_FILE = "/music.wav";
 
+std::string const MAIN_MUSIC_FILE = "music/main.wav";
+
 int const X_TRANSITION_VEC = -14;
 int const TRANSITION_WIDTH = 1140;
 

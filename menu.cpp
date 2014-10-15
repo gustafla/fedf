@@ -26,6 +26,7 @@ This file is part of Fedora Fighters.
 #include <cmath>
 #include <iostream>
 #include <SDL/SDL.h>
+#include <SDL/SDL_mixer.h>
 
 Menu::Menu(GameData* igameData, bool title):
 gameData(igameData),
@@ -70,6 +71,11 @@ screenAt(CHARACTER_SCREEN) {
 		std::cout << "Something went wrong parsing stages.\n";
 		exit(-5);
 	}
+    
+    Mix_VolumeMusic(MIX_MAX_VOLUME);
+    gameData->music = Mix_LoadMUS(MAIN_MUSIC_FILE.c_str());
+    Mix_PlayMusic(gameData->music, -1);
+    gameData->musicPlaying = true;
 }
 
 Menu::~Menu() {
@@ -77,6 +83,8 @@ Menu::~Menu() {
 	SDL_FreeSurface(characterSelectBG);
 	SDL_FreeSurface(stageSelectOverlay);
 	SDL_FreeSurface(ok);
+    Mix_PlayMusic(gameData->music, 0);
+    gameData->musicPlaying = false;
 }
 
 Game* Menu::update() {
@@ -114,7 +122,7 @@ Game* Menu::update() {
                 
                 SDL_Rect tpcoord[2] = {buildRect(WIDTH/4-64, HEIGHT/2-64, 0, 0), buildRect((WIDTH/4)*3-64, HEIGHT/2-64, 0, 0)};
                 SDL_Rect okcoord[2] = {buildRect(WIDTH/4-32, (HEIGHT/4)*3, 0, 0), buildRect((WIDTH/4)*3-32, (HEIGHT/4)*3, 0, 0)};
-                PlayerControls controls[2] = {PLAYER1_CONTROLS, PLAYER2_CONTROLS};
+                PlayerControls controls[2] = {gameData->player1Controls, gameData->player2Controls};
                 
                 SDL_BlitSurface(characterSelectBG, NULL, gameData->buffer, NULL);
                 
@@ -172,14 +180,14 @@ Game* Menu::update() {
                 if (playerStageIDelay != 0)
                     playerStageIDelay--;
                 if (!gameData->inTransition) {
-                    if (gameData->keystate[PLAYER1_CONTROLS.LEFT] && playerStageDelay == 0) {
+                    if (gameData->keystate[gameData->player1Controls.LEFT] && playerStageDelay == 0) {
                             if (playerStageSelection == 0)
                                 playerStageSelection = stages.size()-1;
                             else
                                 playerStageSelection--;
                             playerStageDelay = STAGE_SELECT_DELAY;
                     }
-                    if (gameData->keystate[PLAYER1_CONTROLS.RIGHT] && playerStageDelay == 0) {
+                    if (gameData->keystate[gameData->player1Controls.RIGHT] && playerStageDelay == 0) {
                             if (playerStageSelection == stages.size()-1)
                                 playerStageSelection = 0;
                             else
@@ -187,16 +195,16 @@ Game* Menu::update() {
                             playerStageDelay = STAGE_SELECT_DELAY;
                     }
                     
-                    if (gameData->keystate[PLAYER1_CONTROLS.B]) {
+                    if (gameData->keystate[gameData->player1Controls.B]) {
                         screenAt = CHARACTER_SCREEN;
                         playerCharacterDone[0] = false;
                     }
-                    if (gameData->keystate[PLAYER2_CONTROLS.B]) {
+                    if (gameData->keystate[gameData->player2Controls.B]) {
                         screenAt = CHARACTER_SCREEN;
                         playerCharacterDone[1] = false;
                     }
                     
-                    if (gameData->keystate[PLAYER1_CONTROLS.A] && playerStageIDelay == 0)
+                    if (gameData->keystate[gameData->player1Controls.A] && playerStageIDelay == 0)
                         gameData->inTransition=true;
                 }
                 

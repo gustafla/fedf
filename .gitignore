@@ -4,6 +4,7 @@ a.out
 gfx/
 characters/
 stages/
+music/
 *.dll
 COPYING
 stdout.txt

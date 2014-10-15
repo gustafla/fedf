@@ -58,6 +58,8 @@ extern std::string const STAGES_DIR;
 extern std::string const STAGE_BG_FILE;
 extern std::string const STAGE_MUSIC_FILE;
 
+extern std::string const MAIN_MUSIC_FILE;
+
 extern int const X_TRANSITION_VEC;
 extern int const TRANSITION_WIDTH;
 
