@@ -26,6 +26,7 @@ This file is part of Fedora Fighters.
 #include <SDL/SDL.h>
 #include "character.hpp"
 #include <vector>
+#include "text.hpp"
 
 class Menu {
 	private:
@@ -48,6 +49,9 @@ class Menu {
 		
 		std::vector<Character> characters;
 		std::vector<Stage> stages;
+		std::vector<Text> stageNames;
+		std::vector<Text> characterNames1;
+		std::vector<Text> characterNames2;
         
         void mapKeys(PlayerControls* toMap, unsigned int whose=1);
         

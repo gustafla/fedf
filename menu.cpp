@@ -27,6 +27,7 @@ This file is part of Fedora Fighters.
 #include <iostream>
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
+#include <algorithm>
 
 Menu::Menu(GameData* igameData, bool title):
 gameData(igameData),
@@ -72,6 +73,21 @@ screenAt(CHARACTER_SCREEN) {
 		exit(-5);
 	}
     
+    std::string tmpStageName;
+    for (int i=0; i<stages.size(); i++) {
+        tmpStageName = stages[i].getName();
+        std::transform(tmpStageName.begin(), tmpStageName.end(), tmpStageName.begin(), ::toupper);
+        stageNames.push_back(Text(gameData, gameData->charset, tmpStageName, (WIDTH/2), (HEIGHT/4)*3, true));
+    }
+    
+    std::string tmpCharacterName;
+    for (int i=0; i<characters.size(); i++) {
+        tmpCharacterName = characters[i].name;
+        std::transform(tmpCharacterName.begin(), tmpCharacterName.end(), tmpCharacterName.begin(), ::toupper);
+        characterNames1.push_back(Text(gameData, gameData->charset, tmpCharacterName, (WIDTH/4)*1, (HEIGHT/8)*5, true));
+        characterNames2.push_back(Text(gameData, gameData->charset, tmpCharacterName, (WIDTH/4)*3, (HEIGHT/8)*5, true));
+    }
+    
     Mix_VolumeMusic(MIX_MAX_VOLUME);
     gameData->music = Mix_LoadMUS(MAIN_MUSIC_FILE.c_str());
     Mix_PlayMusic(gameData->music, -1);
@@ -83,7 +99,6 @@ Menu::~Menu() {
 	SDL_FreeSurface(characterSelectBG);
 	SDL_FreeSurface(stageSelectOverlay);
 	SDL_FreeSurface(ok);
-    Mix_PlayMusic(gameData->music, 0);
     gameData->musicPlaying = false;
 }
 
@@ -135,6 +150,11 @@ Game* Menu::update() {
                     else
                         SDL_BlitSurface(characters[playerCharacterSelection[pl]].lpic, &characters[playerCharacterSelection[pl]].picArea, gameData->buffer, &tpcoord[pl]);
                         
+                    if (pl==0)
+                        characterNames1[playerCharacterSelection[pl]].draw();
+                    else
+                        characterNames2[playerCharacterSelection[pl]].draw();
+                        
                     if (playerCharacterDone[pl])
                         SDL_BlitSurface(ok, NULL, gameData->buffer, &okcoord[pl]);
                         
@@ -174,6 +194,7 @@ Game* Menu::update() {
                 SDL_Rect stagesrc = buildRect((sin(gameData->frame/120.0)*0.5+0.5)*(stages[playerStageSelection].getBG()->w - WIDTH), stages[playerStageSelection].getBG()->h - HEIGHT, WIDTH, HEIGHT);
                 SDL_BlitSurface(stages[playerStageSelection].getBG(), &stagesrc, gameData->buffer, NULL);
                 SDL_BlitSurface(stageSelectOverlay, NULL, gameData->buffer, NULL);
+                stageNames[playerStageSelection].draw();
                 
                 if (playerStageDelay != 0)
                     playerStageDelay--;

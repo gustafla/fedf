@@ -47,6 +47,7 @@ gameData(igameData) {
     igameData->gameFrame = 0;
     file2surface("gfx/paused.png", &pausedSceen);
     
+    Mix_PlayMusic(gameData->music, 0);
     Mix_FreeMusic(gameData->music);
     gameData->music = Mix_LoadMUS((STAGES_DIR+stage.getName()+STAGE_MUSIC_FILE).c_str());
 	Mix_PlayMusic(gameData->music, -1);

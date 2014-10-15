@@ -14,7 +14,7 @@ class Text {
         unsigned int whitespace;
         unsigned int length;
     public:
-        Text(GameData* igameData, SDL_Surface* iset, std::string text, unsigned int x=0, unsigned int y=0);
+        Text(GameData* igameData, SDL_Surface* iset, std::string text, unsigned int x=0, unsigned int y=0, bool center=false);
         void draw();
 };
 

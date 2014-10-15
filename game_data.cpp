@@ -58,7 +58,7 @@ name("Fedora Fighters") {
     
     screenRect = buildRect(0, 0, WIDTH, HEIGHT);
     
-    if(Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, (4096*4) ) == -1 )
+    if(Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 4096 ) == -1 )
     {
 		std::cout << "Can't do audio D:\n";
         exit(-8);
