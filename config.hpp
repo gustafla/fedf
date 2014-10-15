@@ -49,6 +49,9 @@ extern std::string const CHARACTER_SPRITE_FILE;
 extern std::string const CHARACTER_RIGHT_SPRITE_FILE;
 extern std::string const CHARACTER_LEFT_SPRITE_FILE;
 
+extern unsigned int const CHARACTER_FRAME_SIZE;
+extern unsigned int const CHARACTER_HITBOX_SIZE;
+
 extern std::string const ANIM_CONF_FILE;
 
 extern std::string const STAGES_DIR;

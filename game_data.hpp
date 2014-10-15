@@ -28,6 +28,7 @@ class GameData {
         GameData(SDL_Surface* screen);
         SDL_Surface* buffer;
         SDL_Surface* transition;
+        SDL_Surface* charset;
         SDL_Rect transitionDest;
         SDL_Rect transitionSrc;
         int transitionx;

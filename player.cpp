@@ -47,11 +47,11 @@ right(iright) {
     #endif
     coord.x = spawn.x;
     coord.y = spawn.y;
-    coord.w = 64;
-    coord.h = 64;
+    coord.w = CHARACTER_HITBOX_SIZE;
+    coord.h = CHARACTER_HITBOX_SIZE;
     screenCoord = coord;
     
-    sprite = new AnimatedSprite(igameData, icharacter.dir, CHARACTER_RIGHT_SPRITE_FILE);
+    sprite = new AnimatedSprite(igameData, icharacter.dir, CHARACTER_RIGHT_SPRITE_FILE, CHARACTER_FRAME_SIZE, CHARACTER_FRAME_SIZE);
     file2surface(icharacter.dir+CHARACTER_LEFT_SPRITE_FILE, &spritel);
     shadow = new AnimatedSprite(igameData, "gfx/shadow", CHARACTER_SPRITE_FILE);
     
@@ -229,7 +229,8 @@ void Player::drawShadow() {
 void Player::draw() {
     screenCoord = buildRect(coord.x - gameData->screenRect.x, coord.y - gameData->screenRect.y, coord.w, coord.h);
     SDL_Rect animSrc = sprite->getFrame();
-	SDL_BlitSurface(right ? sprite->getSurface() : spritel, &animSrc, gameData->buffer, &screenCoord);
+    SDL_Rect finalCoord = buildRect(screenCoord.x-((CHARACTER_FRAME_SIZE-CHARACTER_HITBOX_SIZE)/2), screenCoord.y-(CHARACTER_FRAME_SIZE-CHARACTER_HITBOX_SIZE), screenCoord.w, screenCoord.h);
+	SDL_BlitSurface(right ? sprite->getSurface() : spritel, &animSrc, gameData->buffer, &finalCoord);
 }
 
 void Player::lookRight(bool look) {

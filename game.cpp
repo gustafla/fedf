@@ -52,6 +52,8 @@ gameData(igameData) {
 		Mix_PlayMusic(gameData->music, -1);
 		gameData->musicPlaying = true;
 	}
+    
+    Mix_VolumeMusic(MIX_MAX_VOLUME);
     #ifdef DEBUG
         std::cout << "Game constructor finish\n";
     #endif
@@ -92,6 +94,7 @@ void Game::update() {
             if (pauseKeyDelay == 0 && gameData->keystate[PAUSE_KEY]) {
                 pauseKeyDelay = PAUSE_KEY_DELAY;
                 paused = false;
+                Mix_VolumeMusic(MIX_MAX_VOLUME);
             }
             if (gameData->keystate[CONFIRM_KEY])
                 wantExit = true;
@@ -101,6 +104,7 @@ void Game::update() {
 		if (pauseKeyDelay == 0 && gameData->keystate[PAUSE_KEY]) {
 			paused = true;
 			pauseKeyDelay = PAUSE_KEY_DELAY;
+            Mix_VolumeMusic(20);
 		}
 		
         if (players[0].getCoord().x > players[1].getCoord().x) {
@@ -193,8 +197,9 @@ bool Game::isFinished() {
         else
             wintimer--;
     }
-    if (gameData->inTransition)
+    if (gameData->inTransition) {
         if (gameData->drawTransition())
             return true;
+    }
     return false;
 }

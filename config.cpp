@@ -59,13 +59,16 @@ unsigned int const WIN_DELAY = 60*3;
 unsigned int const START_DELAY = 60*3;
 unsigned int const START_SHOW_DELAY = 60*1;
 unsigned int const CHARACTER_SELECT_DELAY = 60/8;
-unsigned int const STAGE_SELECT_DELAY = 60/8;
+unsigned int const STAGE_SELECT_DELAY = 60/4;
 
 std::string const CHARACTERS_DIR = "./characters/";
 std::string const CHARACTER_PIC_FILE = "/pic.png";
 std::string const CHARACTER_SPRITE_FILE = "/sprite.png";
 std::string const CHARACTER_RIGHT_SPRITE_FILE = "/sprite.png";
 std::string const CHARACTER_LEFT_SPRITE_FILE = "/spritel.png";
+
+unsigned int const CHARACTER_FRAME_SIZE = 128;
+unsigned int const CHARACTER_HITBOX_SIZE = 64;
 
 std::string const ANIM_CONF_FILE = "/anim.cfg";
 

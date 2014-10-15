@@ -48,6 +48,7 @@ name("Fedora Fighters") {
     #endif
     
     file2surface("gfx/transition.png", &transition);
+    file2surface("gfx/mehusans.png", &charset);
     transitionDest = buildRect(WIDTH, 0, TRANSITION_WIDTH, 480);
     transitionSrc = buildRect(0, 0, TRANSITION_WIDTH, 480);
     transitionx = WIDTH;

@@ -1,8 +1,5 @@
 - Hyökkäyksiä
     - Hyökkäyksien "kipinät"/efektit
 - Idle-animaatio
-- Pienemmät hitboxit?
-    - Isommat hahmospritet?
-- Lisää vakioita (PLAYER_HB_WIDTH, PLAYER_HB_HEIGHT, PLAYER_SPRITE...)
 - Parallax/skrollitaustat
- 
+- näppäimien vaihto/näyttö

@@ -34,6 +34,8 @@ class Menu {
 		SDL_Surface* characterSelectBG;
 		SDL_Surface* stageSelectOverlay;
 		SDL_Surface* ok;
+        SDL_Surface* help;
+        SDL_Surface* bg;
 		
 		unsigned int playerCharacterSelection[2];
 		unsigned int playerStageSelection;
