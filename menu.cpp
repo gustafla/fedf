@@ -224,7 +224,7 @@ void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
     
     PlayerControls tmp;
     unsigned int keyDelay = STAGE_SELECT_DELAY;
-    unsigned int delay = 0;
+    int delay = 0;
     unsigned int timeLast = 0;
     enum {INFO=0, JUMP, LEFT, CROUCH, RIGHT, A, B, DONE} keyAt;
     keyAt = INFO;
@@ -253,6 +253,7 @@ void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
             case INFO:
                 if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
                 {
+                    keyDelay = STAGE_SELECT_DELAY;
                     keyAt = JUMP;
                     delete screenText;
                     screenText = new Text(gameData, gameData->charset, "JUMP");
@@ -262,6 +263,7 @@ void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
                 if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
                 {
                     if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        keyDelay = STAGE_SELECT_DELAY;
                         tmp.JUMP = gameData->gameEvent.key.keysym.sym;
                         keyAt = LEFT;
                         delete screenText;
@@ -273,6 +275,7 @@ void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
                 if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
                 {
                     if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        keyDelay = STAGE_SELECT_DELAY;
                         tmp.LEFT = gameData->gameEvent.key.keysym.sym;
                         keyAt = CROUCH;
                         delete screenText;
@@ -284,6 +287,7 @@ void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
                 if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
                 {
                     if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        keyDelay = STAGE_SELECT_DELAY;
                         tmp.CROUCH = gameData->gameEvent.key.keysym.sym;
                         keyAt = RIGHT;
                         delete screenText;
@@ -295,6 +299,7 @@ void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
                 if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
                 {
                     if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        keyDelay = STAGE_SELECT_DELAY;
                         tmp.RIGHT = gameData->gameEvent.key.keysym.sym;
                         keyAt = A;
                         delete screenText;
@@ -306,6 +311,7 @@ void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
                 if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
                 {
                     if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        keyDelay = STAGE_SELECT_DELAY;
                         tmp.A = gameData->gameEvent.key.keysym.sym;
                         keyAt = B;
                         delete screenText;
@@ -317,6 +323,7 @@ void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
                 if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
                 {
                     if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        keyDelay = STAGE_SELECT_DELAY;
                         tmp.B = gameData->gameEvent.key.keysym.sym;
                         keyAt = DONE;
                         delete screenText;
