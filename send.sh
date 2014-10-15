@@ -2,7 +2,7 @@
 
 mkdir /mnt/nfs/cubie/ff/
 mkdir /mnt/nfs/cubie/ff/src/
-cp *.exe /mnt/nfs/cubie/ff/
+cp fedf* /mnt/nfs/cubie/ff/
 cp *.dll /mnt/nfs/cubie/ff/
 cp -r characters/ /mnt/nfs/cubie/ff/
 cp -r stages/ /mnt/nfs/cubie/ff/
