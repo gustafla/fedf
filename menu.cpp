@@ -21,6 +21,7 @@ This file is part of Fedora Fighters.
 #include "util.hpp"
 #include "player_controls.hpp"
 #include "config.hpp"
+#include "text.hpp"
 #include <cstdlib>
 #include <cmath>
 #include <iostream>
@@ -84,9 +85,15 @@ Game* Menu::update() {
 			if (gameData->gameEvent.key.keysym.sym == SDLK_ESCAPE)
 				gameData->running = false;
 		}
-	if (gameData->keystate[SDLK_F1])
+	if (gameData->keystate[SDLK_F1]) {
         SDL_BlitSurface(help, NULL, gameData->buffer, NULL);
-    else {
+        #ifdef DEBUG
+            std::cout << "Showing help\n";
+        #endif
+    } else if (gameData->keystate[SDLK_F2]) {
+        mapKeys(&gameData->player1Controls);
+        mapKeys(&gameData->player2Controls, 2);
+    } else {
         switch (screenAt) {
             case TITLE_SCREEN: {
                 SDL_BlitSurface(titleScreen, NULL, gameData->buffer, NULL);
@@ -114,9 +121,12 @@ Game* Menu::update() {
                 for (int pl=0; pl<2; pl++) {
                     if (playerCharacterDelay[pl] != 0)
                         playerCharacterDelay[pl]--;
-            
-                    SDL_BlitSurface(characters[playerCharacterSelection[pl]].pic, NULL, gameData->buffer, &tpcoord[pl]);
-        
+                    
+                    if (pl==0)
+                        SDL_BlitSurface(characters[playerCharacterSelection[pl]].pic, &characters[playerCharacterSelection[pl]].picArea, gameData->buffer, &tpcoord[pl]);
+                    else
+                        SDL_BlitSurface(characters[playerCharacterSelection[pl]].lpic, &characters[playerCharacterSelection[pl]].picArea, gameData->buffer, &tpcoord[pl]);
+                        
                     if (playerCharacterDone[pl])
                         SDL_BlitSurface(ok, NULL, gameData->buffer, &okcoord[pl]);
                         
@@ -195,11 +205,140 @@ Game* Menu::update() {
                         return new Game(
                             gameData,
                             stages[playerStageSelection],
-                            Player(gameData, PLAYER1_CONTROLS, buildRect(40, 0, CHARACTER_HITBOX_SIZE, CHARACTER_HITBOX_SIZE), true, characters[playerCharacterSelection[0]]),
-                            Player(gameData, PLAYER2_CONTROLS, buildRect(WIDTH-40-CHARACTER_HITBOX_SIZE, 0, CHARACTER_HITBOX_SIZE, CHARACTER_HITBOX_SIZE), false, characters[playerCharacterSelection[1]])
+                            Player(gameData, gameData->player1Controls, buildRect(40, 0, CHARACTER_HITBOX_SIZE, CHARACTER_HITBOX_SIZE), true, characters[playerCharacterSelection[0]]),
+                            Player(gameData, gameData->player2Controls, buildRect(WIDTH-40-CHARACTER_HITBOX_SIZE, 0, CHARACTER_HITBOX_SIZE, CHARACTER_HITBOX_SIZE), false, characters[playerCharacterSelection[1]])
                         );
             } break;
         }
     }
 	return NULL;
+}
+
+void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
+    std::string caption = gameData->name;
+    caption += " ";
+    caption += VERSION;
+    caption += " ";
+    caption += "(mapping keys)";
+    SDL_WM_SetCaption(caption.c_str(), NULL);
+    
+    PlayerControls tmp;
+    unsigned int keyDelay = STAGE_SELECT_DELAY;
+    unsigned int delay = 0;
+    unsigned int timeLast = 0;
+    enum {INFO=0, JUMP, LEFT, CROUCH, RIGHT, A, B, DONE} keyAt;
+    keyAt = INFO;
+    Text* screenText;
+    if (whose == 1)
+        screenText = new Text(gameData, gameData->charset, "PLAYER ONE, PRESS ANY KEY.");
+    else
+        screenText = new Text(gameData, gameData->charset, "PLAYER TWO, PRESS ANY KEY.");
+    for (;;) {
+        timeLast = SDL_GetTicks();
+        SDL_PollEvent(&gameData->gameEvent);
+        if (gameData->gameEvent.type == SDL_QUIT)
+            return;
+        if (gameData->gameEvent.type == SDL_KEYDOWN)
+		{
+			if (gameData->gameEvent.key.keysym.sym == SDLK_ESCAPE)
+				return;
+		}
+        if (keyDelay)
+            keyDelay--;
+            
+        SDL_BlitSurface(bg, NULL, gameData->buffer, NULL);
+        screenText->draw();
+        
+        switch (keyAt) {
+            case INFO:
+                if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
+                {
+                    keyAt = JUMP;
+                    delete screenText;
+                    screenText = new Text(gameData, gameData->charset, "JUMP");
+                }
+            break;
+            case JUMP:
+                if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
+                {
+                    if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        tmp.JUMP = gameData->gameEvent.key.keysym.sym;
+                        keyAt = LEFT;
+                        delete screenText;
+                        screenText = new Text(gameData, gameData->charset, "LEFT");
+                    }
+                }
+            break;
+            case LEFT:
+                if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
+                {
+                    if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        tmp.LEFT = gameData->gameEvent.key.keysym.sym;
+                        keyAt = CROUCH;
+                        delete screenText;
+                        screenText = new Text(gameData, gameData->charset, "CROUCH");
+                    }
+                }
+            break;
+            case CROUCH:
+                if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
+                {
+                    if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        tmp.CROUCH = gameData->gameEvent.key.keysym.sym;
+                        keyAt = RIGHT;
+                        delete screenText;
+                        screenText = new Text(gameData, gameData->charset, "RIGHT");
+                    }
+                }
+            break;
+            case RIGHT:
+                if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
+                {
+                    if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        tmp.RIGHT = gameData->gameEvent.key.keysym.sym;
+                        keyAt = A;
+                        delete screenText;
+                        screenText = new Text(gameData, gameData->charset, "A");
+                    }
+                }
+            break;
+            case A:
+                if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
+                {
+                    if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        tmp.A = gameData->gameEvent.key.keysym.sym;
+                        keyAt = B;
+                        delete screenText;
+                        screenText = new Text(gameData, gameData->charset, "B");
+                    }
+                }
+            break;
+            case B:
+                if (gameData->gameEvent.type == SDL_KEYDOWN && !keyDelay)
+                {
+                    if (gameData->gameEvent.key.keysym.sym != SDLK_ESCAPE) {
+                        tmp.B = gameData->gameEvent.key.keysym.sym;
+                        keyAt = DONE;
+                        delete screenText;
+                    }
+                }
+            break;
+        }
+        if (keyAt == DONE)
+            break;
+        
+        #ifdef DBHACK
+            SDL_BlitSurface(gameData->buffer, NULL, gameData->screen, NULL);
+        #endif
+        SDL_Flip(gameData->screen);
+        delay = (1000/FPS - (SDL_GetTicks() - timeLast));
+        SDL_Delay(delay < 0 ? 0 : delay);
+    }
+    if (keyAt == DONE)
+        *toMap = tmp;
+        
+    std::string origCaption = gameData->name;
+    caption += " ";
+    caption += VERSION;
+    SDL_WM_SetCaption(origCaption.c_str(), NULL);
 }

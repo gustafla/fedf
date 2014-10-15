@@ -29,6 +29,8 @@ class Character {
 		std::string name;
 		std::string dir;
 		SDL_Surface* pic;
+		SDL_Surface* lpic;
+        SDL_Rect picArea;
 		Character(GameData* igameData, std::string name, std::string idir);
 };
 

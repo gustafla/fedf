@@ -48,6 +48,9 @@ class Menu {
 		
 		std::vector<Character> characters;
 		std::vector<Stage> stages;
+        
+        void mapKeys(PlayerControls* toMap, unsigned int whose=1);
+        
 	public:
 		Menu(GameData* igameData, bool title=false);
 		~Menu();

@@ -22,11 +22,13 @@ This file is part of Fedora Fighters.
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include <string>
+#include <player_controls.hpp>
 
 class GameData {
     public:
-        GameData(SDL_Surface* screen);
+        GameData(SDL_Surface* iscreen);
         SDL_Surface* buffer;
+        SDL_Surface* screen;
         SDL_Surface* transition;
         SDL_Surface* charset;
         SDL_Rect transitionDest;
@@ -47,6 +49,8 @@ class GameData {
         enum {NO_MOVE=0, PUNCH, KICK} playerMessagePasser[2];
         Mix_Music *music;
         bool musicPlaying;
+        PlayerControls player1Controls;
+        PlayerControls player2Controls;
 };
 
 #endif

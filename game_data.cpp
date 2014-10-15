@@ -25,12 +25,15 @@ This file is part of Fedora Fighters.
 #include "util.hpp"
 #include "config.hpp"
 
-GameData::GameData(SDL_Surface* screen):
+GameData::GameData(SDL_Surface* iscreen):
+screen(iscreen),
 running(true),
 frame(0),
 musicPlaying(false),
 inTransition(false),
 postTransition(false),
+player1Controls(PLAYER1_CONTROLS),
+player2Controls(PLAYER2_CONTROLS),
 name("Fedora Fighters") {
     #ifndef DBHACK
         buffer = screen;

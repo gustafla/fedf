@@ -3,3 +3,4 @@
 - Idle-animaatio
 - Parallax/skrollitaustat
 - näppäimien vaihto/näyttö
+- PAREMPI KEY MAPPING ;__; (käyttäen for-silmukkaa ja esim std::mappia tjs näppäinten nimille)

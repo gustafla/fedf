@@ -18,10 +18,13 @@ This file is part of Fedora Fighters.
 
 #include "character.hpp"
 #include "gfxutil.hpp"
+#include "util.hpp"
 #include "config.hpp"
 
 Character::Character(GameData* igameData, std::string iname, std::string idir):
 name(iname),
 dir(idir) {
-	file2surface(dir+CHARACTER_PIC_FILE, &pic);
+    picArea = buildRect(0, 0, CHARACTER_FRAME_SIZE, CHARACTER_FRAME_SIZE);
+	file2surface(dir+CHARACTER_RIGHT_SPRITE_FILE, &pic);
+	file2surface(dir+CHARACTER_LEFT_SPRITE_FILE, &lpic);
 }
