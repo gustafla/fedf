@@ -374,7 +374,7 @@ void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
         *toMap = tmp;
         
     std::string origCaption = gameData->name;
-    caption += " ";
-    caption += VERSION;
+    origCaption += " ";
+    origCaption += VERSION;
     SDL_WM_SetCaption(origCaption.c_str(), NULL);
 }
