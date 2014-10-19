@@ -67,7 +67,8 @@ extern int const TRANSITION_WIDTH;
 
 extern unsigned int const PUNCH_DELAY;
 extern unsigned int const KICK_DELAY;
-extern unsigned int const ATTACK_REGISTER_DELAY;
+extern unsigned int const PUNCH_REGISTER_DELAY;
+extern unsigned int const KICK_REGISTER_DELAY;
 
 extern unsigned int const ATTACK_REACH;
 extern unsigned int const ATTACK1_DAMAGE;

@@ -208,13 +208,13 @@ void Player::update() {
 			sprite->doOnce(1);
 			attackStatus = 1;
             attackDelay = PUNCH_DELAY;
-            attackRegisterDelay = ATTACK_REGISTER_DELAY;
+            attackRegisterDelay = PUNCH_REGISTER_DELAY;
             stop();
 		} if (gameData->keystate[controls.B] && !attackDelay) {
 			sprite->doOnce(2);
 			attackStatus = 2;
             attackDelay = KICK_DELAY;
-            attackRegisterDelay = ATTACK_REGISTER_DELAY;
+            attackRegisterDelay = KICK_REGISTER_DELAY;
             stop();
 		}
     }
