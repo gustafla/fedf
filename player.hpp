@@ -75,6 +75,7 @@ class Player {
         SDL_Surface* getPic();
         void lookRight(bool look);
         bool lookingRight();
+        bool waiting();
         unsigned int getAttackStatus();
         void clearAttackStatus();
 };

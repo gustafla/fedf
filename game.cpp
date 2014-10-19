@@ -87,10 +87,10 @@ void Game::update() {
     #endif
     
     if (gameData->gameFrame > START_DELAY-START_SHOW_DELAY) {
-        if (!players[0].isActive() && players[0].getHealth() != 0) {
+        if (!players[0].isActive() && players[0].getHealth() != 0 && !players[0].waiting()) {
             players[0].start();
         }
-        if (!players[1].isActive() && players[1].getHealth() != 0) {
+        if (!players[1].isActive() && players[1].getHealth() != 0 && !players[1].waiting()) {
             players[1].start();
         }
     };

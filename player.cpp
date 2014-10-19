@@ -77,8 +77,18 @@ unsigned int Player::getHealth() {
     return (health > 0) ? health : 0;
 }
 
+bool Player::waiting() {
+    return attackDelay;
+}
+
 void Player::takeDamage(unsigned int amnt) {
     health -= amnt;
+    if (health < 0)
+        health = 0;
+    if (attackStatus == 2) // kick can be avoided
+        attackStatus = 0;
+    stop();
+    attackDelay += ((50*amnt)/100);
 }
 
 SDL_Rect Player::getCoord() {

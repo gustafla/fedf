@@ -52,6 +52,7 @@ screenAt(CHARACTER_SCREEN) {
 	file2surface("gfx/ok.png", &ok);
 	file2surface("gfx/help.png", &help);
 	file2surface("gfx/bg.png", &bg);
+	file2surface("gfx/logo.png", &logo);
 	
 	if (title)
 		screenAt = TITLE_SCREEN;
@@ -102,6 +103,9 @@ Menu::~Menu() {
 	SDL_FreeSurface(characterSelectBG);
 	SDL_FreeSurface(stageSelectOverlay);
 	SDL_FreeSurface(ok);
+	SDL_FreeSurface(help);
+	SDL_FreeSurface(bg);
+	SDL_FreeSurface(logo);
     gameData->musicPlaying = false;
 }
 
@@ -133,6 +137,8 @@ Game* Menu::update() {
         switch (screenAt) {
             case TITLE_SCREEN: {
                 SDL_BlitSurface(titleScreen, NULL, gameData->buffer, NULL);
+                SDL_Rect logoC = buildRect(WIDTH/2-(logo->w/2), HEIGHT/2-(logo->h/2)+int(sin(gameData->frame/40.0)*10.0), logo->w, logo->h);
+                SDL_BlitSurface(logo, NULL, gameData->buffer, &logoC);
                 if (!gameData->inTransition && gameData->gameEvent.type == SDL_KEYDOWN && gameData->gameEvent.key.keysym.sym != SDLK_F3) {
                     gameData->inTransition=true;
                     #ifdef DEBUG
