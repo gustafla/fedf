@@ -36,11 +36,12 @@ class AnimatedSprite {
         bool holding;
         unsigned int xholdAt;
         bool doing;
+        bool* donePtr;
         unsigned int xdoAt;
         unsigned int frameWidth;
         unsigned int frameHeight;
     public:
-        AnimatedSprite(GameData* igameData, std::string dir, std::string spritename, unsigned int iframeWidth=64, unsigned int iframeHeight=64);
+        AnimatedSprite(GameData* igameData, std::string dir, std::string spritename, unsigned int iframeWidth=64, unsigned int iframeHeight=64, bool* done=NULL);
         ~AnimatedSprite();
         SDL_Rect getFrame();
         SDL_Surface* getSurface();

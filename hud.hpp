@@ -37,6 +37,7 @@ class Hud {
         SDL_Surface* start;
         Player* p1;
         Player* p2;
+        unsigned int winFrame;
         GameData* gameData;
     public:
         Hud(GameData* igameData, Player* ip1, Player*ip2);

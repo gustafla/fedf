@@ -24,12 +24,14 @@ This file is part of Fedora Fighters.
 #ifdef DEBUG
     std::string const VERSION = "debug build";
 #else
-    std::string const VERSION = "0.7 alpha";
+    std::string const VERSION = "1.0 beta";
 #endif
 
 unsigned int const WIDTH = 640;
 unsigned int const HEIGHT = 480;
 unsigned int const FPS = 60;
+unsigned int const FPS_MIN = 30;
+unsigned int const FPS_SHOW_DELAY = 60*2;
 
 PlayerControls const PLAYER2_CONTROLS = {
     SDLK_UP,        //jump
@@ -81,5 +83,11 @@ std::string const MAIN_MUSIC_FILE = "music/main.wav";
 int const X_TRANSITION_VEC = -14;
 int const TRANSITION_WIDTH = 1140;
 
-unsigned int const PUNCH_DELAY = 30;
-unsigned int const KICK_DELAY = 40;
+unsigned int const PUNCH_DELAY = 28;
+unsigned int const KICK_DELAY = 32;
+unsigned int const ATTACK_REGISTER_DELAY = 16;
+
+unsigned int const ATTACK_REACH = 20;
+unsigned int const ATTACK1_DAMAGE = 6;
+unsigned int const ATTACK2_DAMAGE = 12;
+unsigned int const DEFAULT_DAMAGE = 1;

@@ -28,9 +28,12 @@ This file is part of Fedora Fighters.
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include <algorithm>
+#include <sstream>
 
 Menu::Menu(GameData* igameData, bool title):
 gameData(igameData),
+fpsKeyDelay(0),
+fpsText(NULL),
 screenAt(CHARACTER_SCREEN) {
 	
 	playerCharacterSelection[0]=0;
@@ -116,11 +119,21 @@ Game* Menu::update() {
     } else if (gameData->keystate[SDLK_F2]) {
         mapKeys(&gameData->player1Controls);
         mapKeys(&gameData->player2Controls, 2);
+    } else if (gameData->keystate[SDLK_F3] && !fpsKeyDelay) {
+        gameData->fps-=10;
+        if (gameData->fps < FPS_MIN)
+            gameData->fps = FPS;
+        fpsKeyDelay = FPS_SHOW_DELAY;
+        if (fpsText != NULL)
+            delete fpsText;
+        std::ostringstream tmpFpsText;
+        tmpFpsText << "FPS SET TO " << gameData->fps << ".";
+        fpsText = new Text(gameData, gameData->charset, tmpFpsText.str(), (WIDTH/4)*3, 0, true);
     } else {
         switch (screenAt) {
             case TITLE_SCREEN: {
                 SDL_BlitSurface(titleScreen, NULL, gameData->buffer, NULL);
-                if (!gameData->inTransition && gameData->gameEvent.type == SDL_KEYDOWN) {
+                if (!gameData->inTransition && gameData->gameEvent.type == SDL_KEYDOWN && gameData->gameEvent.key.keysym.sym != SDLK_F3) {
                     gameData->inTransition=true;
                     #ifdef DEBUG
                         std::cout << "Key pressed in title screen.\n";
@@ -239,6 +252,10 @@ Game* Menu::update() {
                         );
             } break;
         }
+    }
+    if (fpsKeyDelay) {
+        fpsText->draw();
+        fpsKeyDelay--;
     }
 	return NULL;
 }
@@ -367,7 +384,7 @@ void Menu::mapKeys(PlayerControls* toMap, unsigned int whose) {
             SDL_BlitSurface(gameData->buffer, NULL, gameData->screen, NULL);
         #endif
         SDL_Flip(gameData->screen);
-        delay = (1000/FPS - (SDL_GetTicks() - timeLast));
+        delay = (1000/gameData->fps - (SDL_GetTicks() - timeLast));
         SDL_Delay(delay < 0 ? 0 : delay);
     }
     if (keyAt == DONE)

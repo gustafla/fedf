@@ -23,15 +23,18 @@ This file is part of Fedora Fighters.
 #include <cstdlib>
 #include <iostream>
 
-AnimatedSprite::AnimatedSprite(GameData* igameData, std::string dir, std::string spritename, unsigned int iframeWidth, unsigned int iframeHeight):
+AnimatedSprite::AnimatedSprite(GameData* igameData, std::string dir, std::string spritename, unsigned int iframeWidth, unsigned int iframeHeight, bool* done):
 gameData(igameData),
 rowAt(0),
 holding(false),
 xholdAt(0),
 doing(false),
+donePtr(done),
 xdoAt(0),
 frameHeight(iframeHeight),
 frameWidth(iframeWidth) {
+    if (donePtr != NULL)
+        *donePtr = false;
     std::vector<std::string> lines;
     char buf[16];
     configFile.open((dir+ANIM_CONF_FILE).c_str());
@@ -83,6 +86,8 @@ SDL_Rect AnimatedSprite::getFrame() {
             doing = false;
             xdoAt = 0;
             rowAt = 0;
+            if (donePtr != NULL)
+                *donePtr = true;
         }
     } else if (holding) {
         tmp = buildRect(

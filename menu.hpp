@@ -43,6 +43,8 @@ class Menu {
 		unsigned int playerCharacterDelay[2];
 		unsigned int playerStageDelay;
 		unsigned int playerStageIDelay;
+		unsigned int fpsKeyDelay;
+		Text* fpsText;
 		bool playerCharacterDone[2];
 		
 		enum {TITLE_SCREEN, CHARACTER_SCREEN, STAGE_SCREEN} screenAt;

@@ -29,7 +29,7 @@ This file is part of Fedora Fighters.
 class Player {
     private:
     
-		unsigned int number;
+		unsigned int number;    //Unused
     
         GameData* gameData;
         Character character;
@@ -48,12 +48,14 @@ class Player {
         int jump;
         int xjump;
         bool right;
+        unsigned int attackStatus;
         
         PlayerControls controls;
         
         bool active;
         
         unsigned int attackDelay;
+        unsigned int attackRegisterDelay;
         
         bool moved;
         
@@ -73,6 +75,8 @@ class Player {
         SDL_Surface* getPic();
         void lookRight(bool look);
         bool lookingRight();
+        unsigned int getAttackStatus();
+        void clearAttackStatus();
 };
 
 #endif

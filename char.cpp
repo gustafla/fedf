@@ -42,15 +42,16 @@ void Char::draw()
 
 SDL_Rect Char::getMapOffset(char io)
 {
-    const unsigned int setsize = 30; //The Mehu charset is 10 chars wide and chars are 16x16.
+    const unsigned int setsize = 40; //The Mehu charset is 10 chars wide and chars are 16x16.
     SDL_Rect mo;
     mo.x = 0;
     mo.y = 0;
     mo.h = 16;
     mo.w = 16;
-    const char LOOKUP[30] = {'A','B','C','D','E','F','G','H','I','J',
+    const char LOOKUP[40] = {'A','B','C','D','E','F','G','H','I','J',
                              'K','L','M','N','O','P','Q','R','S','T',  //0 and 1 are arbitrary.
-                             'U','V','W','X','Y','Z','0','1',',','.'}; //Only supported chars.
+                             'U','V','W','X','Y','Z','h','s',',','.',
+                             '0','1','2','3','4','5','6','7','8','9'}; //Only supported chars.
     
     for (unsigned int i=0;i<setsize;i++) //SLOW AS HELL WTF HAVE I DONE ;__;
     {

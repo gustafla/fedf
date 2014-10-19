@@ -128,7 +128,7 @@ int main(int argc, char* argv[]) {
         #endif
 		SDL_Flip(screen);
         #ifndef BENCHMARK
-            delay = (1000/FPS - (SDL_GetTicks() - timeLast));
+            delay = (1000/gameData.fps - (SDL_GetTicks() - timeLast));
             SDL_Delay(delay < 0 ? 0 : delay);
         #endif
         
@@ -137,7 +137,7 @@ int main(int argc, char* argv[]) {
             fpsLast=SDL_GetTicks();
             fps = frames/10.0;
             std::cout << "FPS: " << fps << std::endl;
-            if (fps<FPS-5)
+            if (fps < (gameData.fps - 5))
 				std::cout << "Target framerate not achieved! If this message repeats, your computer is not fast enough for intended gameplay!\n";
             frames = 0;
         }

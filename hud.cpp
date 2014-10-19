@@ -24,6 +24,7 @@ This file is part of Fedora Fighters.
 #include <SDL/SDL.h>
 #include <iostream>
 #include <cstdlib>
+#include <cmath>
 
 Hud::Hud(GameData* igameData, Player* ip1, Player* ip2):
 p1(ip1),
@@ -31,6 +32,7 @@ p2(ip2),
 gameData(igameData),
 p1hcoord(buildRect(20, 32, ((WIDTH/2)-20-32), 32)),
 p2hcoord(buildRect((WIDTH/2)+32, 32, ((WIDTH/2)-20-32), 32)),
+winFrame(0),
 bgcoord(buildRect(0, 16, 640, 64)) {
     #ifdef DEBUG
         std::cout << "Hud constructor\n";
@@ -91,11 +93,20 @@ void Hud::draw(int winner) {
         SDL_Rect startdst = buildRect(int((float(rand()%100000)/100000.0)*float(gameData->gameFrame-(START_DELAY-START_SHOW_DELAY))*0.4), int((float(rand()%100000)/100000.0)*float(gameData->gameFrame-(START_DELAY-START_SHOW_DELAY))*0.4), 640, 480);
         SDL_BlitSurface(start, &startsrc, gameData->buffer, &startdst);
     }
+     
+    SDL_Rect winDsRect;
+    if (winner) {
+        if (!winFrame)
+            winFrame = gameData->frame;
+        winDsRect = buildRect(pow(WIDTH, 1.0/(((float)(gameData->frame-winFrame+10))/16.0)), 0, 0, 0);
         
-    if (winner == 1)
-        SDL_BlitSurface(p1win, NULL, gameData->buffer, NULL);
-    if (winner == 2)
-        SDL_BlitSurface(p2win, NULL, gameData->buffer, NULL);
+        if (winner == 1) {
+            SDL_BlitSurface(p1win, NULL, gameData->buffer, &winDsRect);
+        }
+        if (winner == 2) {
+            SDL_BlitSurface(p2win, NULL, gameData->buffer, &winDsRect);
+        }
+    }
         
     #ifdef DEBUG
         std::cout << "Hud draw finish\n";

@@ -41,6 +41,7 @@ speed(3),
 jumpSpeed(5),
 jumpPower(18),
 attackDelay(0),
+attackRegisterDelay(0),
 right(iright) {
     #ifdef DEBUG
         std::cout << "Player constructor\n";
@@ -77,14 +78,22 @@ unsigned int Player::getHealth() {
 }
 
 void Player::takeDamage(unsigned int amnt) {
-    if (active) {
-        health -= amnt;
-        //Blit effect here?
-	}
+    health -= amnt;
 }
 
 SDL_Rect Player::getCoord() {
     return coord;
+}
+
+unsigned int Player::getAttackStatus() {
+    if (!attackRegisterDelay)
+        return attackStatus;
+    else
+        return 0;
+}
+
+void Player::clearAttackStatus() {
+    attackStatus = 0;
 }
 
 void Player::start() {
@@ -116,6 +125,10 @@ void Player::update() {
     
     if (attackDelay != 0)
 		attackDelay--;
+    else
+        start();
+    if (attackRegisterDelay != 0)
+		attackRegisterDelay--;
     
     if (fall > 0) {
         coord.y += fall;
@@ -171,12 +184,16 @@ void Player::update() {
 			}
         } if (gameData->keystate[controls.A] && !attackDelay) {
 			sprite->doOnce(1);
-			gameData->playerMessagePasser[number]=gameData->PUNCH;
-			attackDelay = PUNCH_DELAY;
+			attackStatus = 1;
+            attackDelay = PUNCH_DELAY;
+            attackRegisterDelay = ATTACK_REGISTER_DELAY;
+            stop();
 		} if (gameData->keystate[controls.B] && !attackDelay) {
 			sprite->doOnce(2);
-			gameData->playerMessagePasser[number]=gameData->KICK;
-			attackDelay = KICK_DELAY;
+			attackStatus = 2;
+            attackDelay = KICK_DELAY;
+            attackRegisterDelay = ATTACK_REGISTER_DELAY;
+            stop();
 		}
     }
     

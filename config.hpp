@@ -27,6 +27,8 @@ extern std::string const VERSION;
 extern unsigned int const WIDTH;
 extern unsigned int const HEIGHT;
 extern unsigned int const FPS;
+extern unsigned int const FPS_MIN;
+extern unsigned int const FPS_SHOW_DELAY;
 
 extern PlayerControls const PLAYER1_CONTROLS;
 extern PlayerControls const PLAYER2_CONTROLS;
@@ -65,5 +67,11 @@ extern int const TRANSITION_WIDTH;
 
 extern unsigned int const PUNCH_DELAY;
 extern unsigned int const KICK_DELAY;
+extern unsigned int const ATTACK_REGISTER_DELAY;
+
+extern unsigned int const ATTACK_REACH;
+extern unsigned int const ATTACK1_DAMAGE;
+extern unsigned int const ATTACK2_DAMAGE;
+extern unsigned int const DEFAULT_DAMAGE;
 
 #endif

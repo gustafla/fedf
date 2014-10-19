@@ -35,19 +35,20 @@ whitespace(0)
         nextx -= (18*(length/2));
     int nexty = y;
     
-    const char LOOKUP[30] = {'A','B','C','D','E','F','G','H','I','J',
+    const char LOOKUP[40] = {'A','B','C','D','E','F','G','H','I','J',
                              'K','L','M','N','O','P','Q','R','S','T',  //0 and 1 are arbitrary.
-                             'U','V','W','X','Y','Z','0','1',',','.'}; //Only supported chars.
+                             'U','V','W','X','Y','Z','h','s',',','.',
+                             '0','1','2','3','4','5','6','7','8','9'}; //Only supported chars.
                              
     for (unsigned int i=0; i < length; i++)
     {
-        for (int look=0; look<30; look++) {
+        for (int look=0; look<40; look++) {
             if ((text[i]) == LOOKUP[look]){
                 chars.push_back(Char(gameData, iset, (text[i]), nextx, nexty));
                 break;
             }
             else
-                if (look >= 29)
+                if (look >= 39)
                     noMatch=true;
         }
         if (noMatch)

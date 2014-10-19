@@ -46,11 +46,11 @@ class GameData {
         bool inTransition;
         bool postTransition;
         SDL_Rect screenRect;
-        enum {NO_MOVE=0, PUNCH, KICK} playerMessagePasser[2];
         Mix_Music* music;
         bool musicPlaying;
         PlayerControls player1Controls;
         PlayerControls player2Controls;
+        unsigned int fps;
 };
 
 #endif

@@ -25,6 +25,7 @@ This file is part of Fedora Fighters.
 #include "player.hpp"
 #include "stage.hpp"
 #include "hud.hpp"
+#include "effect.hpp"
 
 class Game {
 	private:
@@ -39,6 +40,8 @@ class Game {
         bool wantExit;
         unsigned int pauseKeyDelay;
         SDL_Surface* pausedSceen;
+        std::vector<Effect*> effects;
+        void updateEffects();
 	public:
 		Game(GameData* igameData, Stage istage, Player player1, Player player2/*, unsigned int timer*/);
 		~Game();

@@ -71,6 +71,16 @@ Game::~Game() {
     Mix_FreeMusic(gameData->music);
 }
 
+void Game::updateEffects() {
+    for (int i=effects.size(); i>0; i--) {
+        if (effects[i-1]->draw()) {
+            std::cout << "Erasing effect.\n";
+            delete effects[i-1];
+            effects.erase(effects.begin()+(i-1));
+        }
+    }
+}
+
 void Game::update() {
     #ifdef DEBUG
         std::cout << "Game update\n";
@@ -179,7 +189,70 @@ void Game::update() {
 			players[1].stop();
 			winner=1;
 		}
-
+        
+        if (players[0].getAttackStatus()) {
+            if (players[0].lookingRight()) {
+                if ((players[0].getCoord().x + players[0].getCoord().w + ATTACK_REACH) >= players[1].getCoord().x)
+                    if (players[0].getCoord().y >= players[1].getCoord().y && players[0].getCoord().y <= players[1].getCoord().y + players[1].getCoord().h)
+                        if (players[0].getCoord().y + players[0].getCoord().h >= players[1].getCoord().y && players[0].getCoord().y + players[0].getCoord().h <= players[1].getCoord().y + players[1].getCoord().h) {
+                            if (players[0].getAttackStatus() == 1) {
+                                players[1].takeDamage(ATTACK1_DAMAGE);
+                                effects.push_back(new Effect(gameData, "gfx/ef1", true, ((players[0].getCoord().x + players[0].getCoord().w + ATTACK_REACH  - 32 -(rand()%10))-gameData->screenRect.x), (players[0].getCoord().y - gameData->screenRect.y)-players[0].getCoord().h+(rand()%20)));
+                            }
+                            else if (players[0].getAttackStatus() == 2)
+                                players[1].takeDamage(ATTACK2_DAMAGE);
+                            else
+                                players[1].takeDamage(DEFAULT_DAMAGE);
+                            
+                        }
+            } else {
+                if ((players[0].getCoord().x - ATTACK_REACH) <= players[1].getCoord().x + players[1].getCoord().w)
+                    if (players[0].getCoord().y >= players[1].getCoord().y && players[0].getCoord().y <= players[1].getCoord().y + players[1].getCoord().h)
+                        if (players[0].getCoord().y + players[0].getCoord().h >= players[1].getCoord().y && players[0].getCoord().y + players[0].getCoord().h <= players[1].getCoord().y + players[1].getCoord().h) {
+                            if (players[0].getAttackStatus() == 1) {
+                                players[1].takeDamage(ATTACK1_DAMAGE);
+                                effects.push_back(new Effect(gameData, "gfx/ef1", false, ((players[0].getCoord().x - ATTACK_REACH - 64 + 32 +(rand()%10))-gameData->screenRect.x), (players[0].getCoord().y - gameData->screenRect.y)-players[0].getCoord().h+(rand()%20)));
+                            }
+                            else if (players[0].getAttackStatus() == 2)
+                                players[1].takeDamage(ATTACK2_DAMAGE);
+                            else
+                                players[1].takeDamage(DEFAULT_DAMAGE);
+                        }
+            }
+            players[0].clearAttackStatus();
+        }
+        if (players[1].getAttackStatus()) {
+            if (players[1].lookingRight()) {
+                if ((players[1].getCoord().x + players[1].getCoord().w + ATTACK_REACH) >= players[0].getCoord().x)
+                    if (players[1].getCoord().y >= players[0].getCoord().y && players[1].getCoord().y <= players[0].getCoord().y + players[0].getCoord().h)
+                        if (players[1].getCoord().y + players[1].getCoord().h >= players[0].getCoord().y && players[1].getCoord().y + players[1].getCoord().h <= players[0].getCoord().y + players[0].getCoord().h) {
+                            if (players[1].getAttackStatus() == 1) {
+                                players[0].takeDamage(ATTACK1_DAMAGE);
+                                effects.push_back(new Effect(gameData, "gfx/ef1", true, ((players[1].getCoord().x + players[1].getCoord().w + ATTACK_REACH - 32 -(rand()%10))-gameData->screenRect.x), (players[1].getCoord().y - gameData->screenRect.y)-players[1].getCoord().h+(rand()%20)));
+                            }
+                            else if (players[1].getAttackStatus() == 2)
+                                players[0].takeDamage(ATTACK2_DAMAGE);
+                            else
+                                players[0].takeDamage(DEFAULT_DAMAGE);
+                            
+                        }
+            } else {
+                if ((players[1].getCoord().x - ATTACK_REACH) <= players[0].getCoord().x + players[0].getCoord().w)
+                    if (players[1].getCoord().y >= players[0].getCoord().y && players[1].getCoord().y <= players[0].getCoord().y + players[0].getCoord().h)
+                        if (players[1].getCoord().y + players[1].getCoord().h >= players[0].getCoord().y && players[1].getCoord().y + players[1].getCoord().h <= players[0].getCoord().y + players[0].getCoord().h) {
+                            if (players[1].getAttackStatus() == 1) {
+                                players[0].takeDamage(ATTACK1_DAMAGE);
+                                effects.push_back(new Effect(gameData, "gfx/ef1", false, ((players[1].getCoord().x - ATTACK_REACH - 64 + 32 +(rand()%10))-gameData->screenRect.x), (players[1].getCoord().y - gameData->screenRect.y)-players[1].getCoord().h+(rand()%20)));
+                            }
+                            else if (players[1].getAttackStatus() == 2)
+                                players[0].takeDamage(ATTACK2_DAMAGE);
+                            else
+                                players[0].takeDamage(DEFAULT_DAMAGE);
+                        }
+            }
+            players[1].clearAttackStatus();
+        }
+        updateEffects();
 		gameData->gameFrame++;
 	}
     

@@ -29,6 +29,7 @@ GameData::GameData(SDL_Surface* iscreen):
 screen(iscreen),
 running(true),
 frame(0),
+fps(FPS),
 musicPlaying(false),
 inTransition(false),
 postTransition(false),
