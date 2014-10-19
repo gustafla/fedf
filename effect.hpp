@@ -28,15 +28,14 @@ This file is part of Fedora Fighters.
 
 class Effect {
     public:
-        Effect(GameData* igameData, std::string dir, bool right, int ix, int iy);
+        Effect(GameData* igameData, std::string dir, bool right, SDL_Rect icoordSize);
         ~Effect();
         bool draw();
         bool done;
     private:
         AnimatedSprite* sprite;
         GameData* gameData;
-        int x;
-        int y;
+        SDL_Rect coordSize;
 };
 
 #endif

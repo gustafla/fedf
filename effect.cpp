@@ -19,15 +19,14 @@ This file is part of Fedora Fighters.
 #include "effect.hpp"
 #include <iostream>
 
-Effect::Effect(GameData* igameData, std::string dir, bool right, int ix, int iy):
+Effect::Effect(GameData* igameData, std::string dir, bool right, SDL_Rect icoordSize):
 gameData(igameData),
 done(false),
-x(ix),
-y(iy) {
+coordSize(icoordSize) {
     if (right)
-        sprite = new AnimatedSprite(gameData, dir, CHARACTER_RIGHT_SPRITE_FILE, 64, 64, &done);
+        sprite = new AnimatedSprite(gameData, dir, CHARACTER_RIGHT_SPRITE_FILE, coordSize.w, coordSize.h, &done);
     else
-        sprite = new AnimatedSprite(gameData, dir, CHARACTER_LEFT_SPRITE_FILE, 64, 64, &done);
+        sprite = new AnimatedSprite(gameData, dir, CHARACTER_LEFT_SPRITE_FILE, coordSize.w, coordSize.h, &done);
     sprite->doOnce(0);
 }
 
@@ -37,7 +36,6 @@ Effect::~Effect() {
 
 bool Effect::draw() {
     SDL_Rect sr = sprite->getFrame();
-    SDL_Rect dr = buildRect(x, y, 64, 64);
-    SDL_BlitSurface(sprite->getSurface(), &sr, gameData->buffer, &dr);
+    SDL_BlitSurface(sprite->getSurface(), &sr, gameData->buffer, &coordSize);
     return done;
 }

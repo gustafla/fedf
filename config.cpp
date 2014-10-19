@@ -24,7 +24,7 @@ This file is part of Fedora Fighters.
 #ifdef DEBUG
     std::string const VERSION = "debug build";
 #else
-    std::string const VERSION = "1.0 beta";
+    std::string const VERSION = "RC1";
 #endif
 
 unsigned int const WIDTH = 640;
@@ -87,7 +87,7 @@ unsigned int const PUNCH_DELAY = 28;
 unsigned int const KICK_DELAY = 32;
 unsigned int const ATTACK_REGISTER_DELAY = 16;
 
-unsigned int const ATTACK_REACH = 20;
+unsigned int const ATTACK_REACH = 64;
 unsigned int const ATTACK1_DAMAGE = 6;
 unsigned int const ATTACK2_DAMAGE = 12;
 unsigned int const DEFAULT_DAMAGE = 1;

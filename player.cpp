@@ -34,6 +34,7 @@ character(icharacter),
 controls(icontrols),
 active(false),
 moved(false),
+shielding(false),
 fall(0),
 jump(0),
 xjump(0),
@@ -79,6 +80,10 @@ unsigned int Player::getHealth() {
 
 bool Player::waiting() {
     return attackDelay;
+}
+
+bool Player::isShielding() {
+    return shielding;
 }
 
 void Player::takeDamage(unsigned int amnt) {
@@ -133,6 +138,9 @@ void Player::update() {
     if (health < 0)
         health = 0;
     
+    if (shielding)
+        shielding = false;
+    
     if (attackDelay != 0)
 		attackDelay--;
     else
@@ -180,9 +188,13 @@ void Player::update() {
         if (gameData->keystate[controls.LEFT] && jump==0 && fall==0) {
             moved = true;
             coord.x-=speed;
+            if (right)
+                shielding = true;
         } if (gameData->keystate[controls.RIGHT] && jump==0 && fall==0) {
             moved = true;
             coord.x+=speed;
+            if (!right)
+                shielding = true;
         } if (gameData->keystate[controls.JUMP]) {
             if (jump == 0 && fall == 0) {
                 moved = true;

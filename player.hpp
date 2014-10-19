@@ -58,6 +58,7 @@ class Player {
         unsigned int attackRegisterDelay;
         
         bool moved;
+        bool shielding;
         
     public:
         Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, Character icharacter, unsigned int inumber=0);
@@ -78,6 +79,7 @@ class Player {
         bool waiting();
         unsigned int getAttackStatus();
         void clearAttackStatus();
+        bool isShielding();
 };
 
 #endif
