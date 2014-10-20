@@ -40,8 +40,8 @@ jump(0),
 xjump(0),
 speed(3),
 jumpSpeed(5),
-jumpPower(18),
-attackDelay(0),
+jumpPower(15),
+attackDelay(START_DELAY-START_SHOW_DELAY),
 attackRegisterDelay(0),
 right(iright) {
     #ifdef DEBUG
