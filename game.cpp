@@ -224,10 +224,12 @@ void Game::update() {
 		#endif
 		if (players[0].getHealth() == 0) {
 			players[0].stop();
+			players[0].pause(WIN_DELAY+1);
 			winner=2;
 		}
 		else if (players[1].getHealth() == 0) {
 			players[1].stop();
+			players[1].pause(WIN_DELAY+1);
 			winner=1;
 		}
         
