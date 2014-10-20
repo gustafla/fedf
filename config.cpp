@@ -85,10 +85,10 @@ int const TRANSITION_WIDTH = 1140;
 
 unsigned int const PUNCH_DELAY = 28;
 unsigned int const KICK_DELAY = 32;
-unsigned int const PUNCH_REGISTER_DELAY = 14;
-unsigned int const KICK_REGISTER_DELAY = 24;
+unsigned int const PUNCH_REGISTER_DELAY = 9;
+unsigned int const KICK_REGISTER_DELAY = 12;
 
 unsigned int const ATTACK_REACH = 64;
-unsigned int const ATTACK1_DAMAGE = 6;
-unsigned int const ATTACK2_DAMAGE = 12;
+unsigned int const ATTACK1_DAMAGE = 5;
+unsigned int const ATTACK2_DAMAGE = 8;
 unsigned int const DEFAULT_DAMAGE = 1;

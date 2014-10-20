@@ -42,6 +42,8 @@ class Game {
         SDL_Surface* pausedSceen;
         std::vector<Effect*> effects;
         void updateEffects();
+        void doFightingCheck(unsigned int playerSelf=0, unsigned int playerOther=1);
+        //void doFightingAction(unsigned int playerSelf, unsigned int playerOther);
 	public:
 		Game(GameData* igameData, Stage istage, Player player1, Player player2/*, unsigned int timer*/);
 		~Game();

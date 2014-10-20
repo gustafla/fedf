@@ -1,5 +1,3 @@
-- Hyökkäyksiä
-    - Hyökkäyksien "kipinät"/efektit
 - Idle-animaatio
 - Parallax/skrollitaustat
 - PAREMPI KEY MAPPING ;__; (käyttäen for-silmukkaa ja esim std::mappia tjs näppäinten nimille)

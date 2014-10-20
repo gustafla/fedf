@@ -71,8 +71,10 @@ class Player {
         void draw();
         void start();
         void stop();
+        void pause(int pauseFor);
         bool isActive();
         void push(int vec);
+        void sendFlying(int xvec, unsigned int yp);
         SDL_Surface* getPic();
         void lookRight(bool look);
         bool lookingRight();

@@ -49,7 +49,7 @@ SDL_Rect Char::getMapOffset(char io)
     mo.h = 16;
     mo.w = 16;
     const char LOOKUP[40] = {'A','B','C','D','E','F','G','H','I','J',
-                             'K','L','M','N','O','P','Q','R','S','T',  //0 and 1 are arbitrary.
+                             'K','L','M','N','O','P','Q','R','S','T',  //h and s are arbitrary.
                              'U','V','W','X','Y','Z','h','s',',','.',
                              '0','1','2','3','4','5','6','7','8','9'}; //Only supported chars.
     

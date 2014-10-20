@@ -119,12 +119,23 @@ void Player::stop() {
     active = false;
 }
 
+void Player::pause(int pauseFor) {
+	stop();
+	attackDelay = pauseFor;
+}
+
 bool Player::isActive() {
     return active;
 }
 
 void Player::push(int vec) {
     coord.x += vec;
+}
+
+void Player::sendFlying(int xvec, unsigned int yp) {
+	moved = true;
+    jump += yp;
+    xjump = xvec;
 }
 
 SDL_Surface* Player::getPic() {
