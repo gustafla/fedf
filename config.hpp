@@ -71,8 +71,8 @@ extern unsigned int const PUNCH_REGISTER_DELAY;
 extern unsigned int const KICK_REGISTER_DELAY;
 
 extern unsigned int const ATTACK_REACH;
-extern unsigned int const ATTACK1_DAMAGE;
-extern unsigned int const ATTACK2_DAMAGE;
+extern unsigned int const PUNCH_DAMAGE;
+extern unsigned int const KICK_DAMAGE;
 extern unsigned int const DEFAULT_DAMAGE;
 
 #endif

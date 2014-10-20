@@ -90,11 +90,11 @@ void Game::doFightingCheck(unsigned int playerSelf, unsigned int playerOther) {
                             effects.push_back(new Effect(gameData, "gfx/shield", false, buildRect((players[playerOther].getCoord().x-CHARACTER_HITBOX_SIZE/2)-gameData->screenRect.x, (players[playerOther].getCoord().y-CHARACTER_HITBOX_SIZE)-gameData->screenRect.y, 128, 128)));
                             players[playerOther].pause(14);
                         } else if (players[playerSelf].getAttackStatus() == 1) {
-                            players[playerOther].takeDamage(ATTACK1_DAMAGE);
+                            players[playerOther].takeDamage(PUNCH_DAMAGE);
                             effects.push_back(new Effect(gameData, "gfx/ef1", true, buildRect(((players[playerSelf].getCoord().x + players[playerSelf].getCoord().w + ATTACK_REACH/2  - 32 -(rand()%10))-gameData->screenRect.x), (players[playerSelf].getCoord().y - gameData->screenRect.y)-players[playerSelf].getCoord().h+(rand()%20), 64, 64)));
                         }
                         else if (players[playerSelf].getAttackStatus() == 2) {
-                            players[playerOther].takeDamage(ATTACK2_DAMAGE);
+                            players[playerOther].takeDamage(KICK_DAMAGE);
                             players[playerOther].sendFlying(4, 4);
                         } else
                             players[playerOther].takeDamage(DEFAULT_DAMAGE);
@@ -108,11 +108,11 @@ void Game::doFightingCheck(unsigned int playerSelf, unsigned int playerOther) {
                             effects.push_back(new Effect(gameData, "gfx/shield", true, buildRect((players[playerOther].getCoord().x-CHARACTER_HITBOX_SIZE/2)-gameData->screenRect.x, (players[playerOther].getCoord().y-CHARACTER_HITBOX_SIZE)-gameData->screenRect.y, 128, 128)));
                             players[playerOther].pause(14);
                         } else if (players[playerSelf].getAttackStatus() == 1) {
-                            players[playerOther].takeDamage(ATTACK1_DAMAGE);
+                            players[playerOther].takeDamage(PUNCH_DAMAGE);
                             effects.push_back(new Effect(gameData, "gfx/ef1", false, buildRect(((players[playerSelf].getCoord().x - ATTACK_REACH/2 - 64 + 32 +(rand()%10))-gameData->screenRect.x), (players[playerSelf].getCoord().y - gameData->screenRect.y)-players[playerSelf].getCoord().h+(rand()%20), 64, 64)));
                         }
                         else if (players[playerSelf].getAttackStatus() == 2) {
-                            players[playerOther].takeDamage(ATTACK2_DAMAGE);
+                            players[playerOther].takeDamage(KICK_DAMAGE);
                             players[playerOther].sendFlying(-4, 4);
                         } else
                             players[playerOther].takeDamage(DEFAULT_DAMAGE);
