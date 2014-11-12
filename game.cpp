@@ -86,44 +86,32 @@ void Game::playHitSound(unsigned int player) {
 
 void Game::doFightingCheck(unsigned int playerSelf, unsigned int playerOther) {
 	if (players[playerSelf].getAttackStatus()) {
-        if (players[playerSelf].lookingRight()) {
-            if ((players[playerSelf].getCoord().x + players[playerSelf].getCoord().w + ATTACK_REACH) >= players[playerOther].getCoord().x)
-                if (players[playerSelf].getCoord().y >= players[playerOther].getCoord().y && players[playerSelf].getCoord().y <= players[playerOther].getCoord().y + players[playerOther].getCoord().h)
-                    if (players[playerSelf].getCoord().y + players[playerSelf].getCoord().h >= players[playerOther].getCoord().y && players[playerSelf].getCoord().y + players[playerSelf].getCoord().h <= players[playerOther].getCoord().y + players[playerOther].getCoord().h) {
-                        if (players[playerOther].isShielding()) {
-                            effects.push_back(new Effect(gameData, "gfx/shield", false, buildRect((players[playerOther].getCoord().x-CHARACTER_HITBOX_SIZE/2)-gameData->screenRect.x, (players[playerOther].getCoord().y-CHARACTER_HITBOX_SIZE)-gameData->screenRect.y, 128, 128)));
-                            players[playerOther].pause(14);
-                        } else if (players[playerSelf].getAttackStatus() == 1) {
-                            players[playerOther].takeDamage(PUNCH_DAMAGE);
-                            playHitSound(playerOther);
-                            effects.push_back(new Effect(gameData, "gfx/ef1", true, buildRect(((players[playerSelf].getCoord().x + players[playerSelf].getCoord().w + ATTACK_REACH/2  - 32 -(rand()%10))-gameData->screenRect.x), (players[playerSelf].getCoord().y - gameData->screenRect.y)-players[playerSelf].getCoord().h+(rand()%20), 64, 64)));
-                        }
-                        else if (players[playerSelf].getAttackStatus() == 2) {
-                            players[playerOther].takeDamage(KICK_DAMAGE);
-                            players[playerOther].sendFlying(4, 4);
-                        } else
-                            players[playerOther].takeDamage(DEFAULT_DAMAGE);
-                        
+        if (players[playerSelf].lookingRight() ? 
+               ((players[playerSelf].getCoord().x + players[playerSelf].getCoord().w + ATTACK_REACH) >= players[playerOther].getCoord().x) : 
+               ((players[playerSelf].getCoord().x - ATTACK_REACH) <= players[playerOther].getCoord().x + players[playerOther].getCoord().w)
+           )
+            if (players[playerSelf].getCoord().y >= players[playerOther].getCoord().y && players[playerSelf].getCoord().y <= players[playerOther].getCoord().y + players[playerOther].getCoord().h)
+                if (players[playerSelf].getCoord().y + players[playerSelf].getCoord().h >= players[playerOther].getCoord().y && players[playerSelf].getCoord().y + players[playerSelf].getCoord().h <= players[playerOther].getCoord().y + players[playerOther].getCoord().h) {
+                    if (players[playerOther].isShielding()) {
+                        effects.push_back(new Effect(gameData, "gfx/shield", !players[playerSelf].lookingRight(), buildRect((players[playerOther].getCoord().x-CHARACTER_HITBOX_SIZE/2)-gameData->screenRect.x, (players[playerOther].getCoord().y-CHARACTER_HITBOX_SIZE)-gameData->screenRect.y, 128, 128)));
+                        players[playerOther].pause(14);
+                    } else if (players[playerSelf].getAttackStatus() == 1) {
+                        players[playerOther].takeDamage(PUNCH_DAMAGE);
+                        playHitSound(playerOther);
+                        effects.push_back(new Effect(gameData, "gfx/ef1", players[playerSelf].lookingRight(), (players[playerSelf].lookingRight() ? 
+                                                                                                                  (buildRect(((players[playerSelf].getCoord().x + players[playerSelf].getCoord().w + ATTACK_REACH/2  - 32 -(rand()%10))-gameData->screenRect.x), (players[playerSelf].getCoord().y - gameData->screenRect.y)-players[playerSelf].getCoord().h+(rand()%20), 64, 64)) :
+                                                                                                                  (buildRect(((players[playerSelf].getCoord().x - ATTACK_REACH/2 - 64 + 32 +(rand()%10))-gameData->screenRect.x), (players[playerSelf].getCoord().y - gameData->screenRect.y)-players[playerSelf].getCoord().h+(rand()%20), 64, 64))
+                                                                                                              )
+                                                    )
+                                         );
                     }
-        } else {
-            if ((players[playerSelf].getCoord().x - ATTACK_REACH) <= players[playerOther].getCoord().x + players[playerOther].getCoord().w)
-                if (players[playerSelf].getCoord().y >= players[playerOther].getCoord().y && players[playerSelf].getCoord().y <= players[playerOther].getCoord().y + players[playerOther].getCoord().h)
-                    if (players[playerSelf].getCoord().y + players[playerSelf].getCoord().h >= players[playerOther].getCoord().y && players[playerSelf].getCoord().y + players[playerSelf].getCoord().h <= players[playerOther].getCoord().y + players[playerOther].getCoord().h) {
-                        if (players[playerOther].isShielding()) {
-                            effects.push_back(new Effect(gameData, "gfx/shield", true, buildRect((players[playerOther].getCoord().x-CHARACTER_HITBOX_SIZE/2)-gameData->screenRect.x, (players[playerOther].getCoord().y-CHARACTER_HITBOX_SIZE)-gameData->screenRect.y, 128, 128)));
-                            players[playerOther].pause(14);
-                        } else if (players[playerSelf].getAttackStatus() == 1) {
-                            players[playerOther].takeDamage(PUNCH_DAMAGE);
-                            playHitSound(playerOther);
-                            effects.push_back(new Effect(gameData, "gfx/ef1", false, buildRect(((players[playerSelf].getCoord().x - ATTACK_REACH/2 - 64 + 32 +(rand()%10))-gameData->screenRect.x), (players[playerSelf].getCoord().y - gameData->screenRect.y)-players[playerSelf].getCoord().h+(rand()%20), 64, 64)));
-                        }
-                        else if (players[playerSelf].getAttackStatus() == 2) {
-                            players[playerOther].takeDamage(KICK_DAMAGE);
-                            players[playerOther].sendFlying(-4, 4);
-                        } else
-                            players[playerOther].takeDamage(DEFAULT_DAMAGE);
-                    }
-        }
+                    else if (players[playerSelf].getAttackStatus() == 2) {
+                        players[playerOther].takeDamage(KICK_DAMAGE);
+                        players[playerOther].sendFlying(4*(players[playerSelf].lookingRight() ? 1 : -1), 4);
+                    } else
+                        players[playerOther].takeDamage(DEFAULT_DAMAGE);
+                    
+                }
         players[playerSelf].clearAttackStatus();
     }
 }
