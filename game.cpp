@@ -80,6 +80,10 @@ void Game::updateEffects() {
     }
 }
 
+void Game::playHitSound(unsigned int player) {
+    gameData->sounds->play(HIT_SOUNDS[int((1.0-(players[player].getHealth()/100.0))*(NUM_HIT_SOUNDS-1))]);
+}
+
 void Game::doFightingCheck(unsigned int playerSelf, unsigned int playerOther) {
 	if (players[playerSelf].getAttackStatus()) {
         if (players[playerSelf].lookingRight()) {
@@ -91,6 +95,7 @@ void Game::doFightingCheck(unsigned int playerSelf, unsigned int playerOther) {
                             players[playerOther].pause(14);
                         } else if (players[playerSelf].getAttackStatus() == 1) {
                             players[playerOther].takeDamage(PUNCH_DAMAGE);
+                            playHitSound(playerOther);
                             effects.push_back(new Effect(gameData, "gfx/ef1", true, buildRect(((players[playerSelf].getCoord().x + players[playerSelf].getCoord().w + ATTACK_REACH/2  - 32 -(rand()%10))-gameData->screenRect.x), (players[playerSelf].getCoord().y - gameData->screenRect.y)-players[playerSelf].getCoord().h+(rand()%20), 64, 64)));
                         }
                         else if (players[playerSelf].getAttackStatus() == 2) {
@@ -109,6 +114,7 @@ void Game::doFightingCheck(unsigned int playerSelf, unsigned int playerOther) {
                             players[playerOther].pause(14);
                         } else if (players[playerSelf].getAttackStatus() == 1) {
                             players[playerOther].takeDamage(PUNCH_DAMAGE);
+                            playHitSound(playerOther);
                             effects.push_back(new Effect(gameData, "gfx/ef1", false, buildRect(((players[playerSelf].getCoord().x - ATTACK_REACH/2 - 64 + 32 +(rand()%10))-gameData->screenRect.x), (players[playerSelf].getCoord().y - gameData->screenRect.y)-players[playerSelf].getCoord().h+(rand()%20), 64, 64)));
                         }
                         else if (players[playerSelf].getAttackStatus() == 2) {

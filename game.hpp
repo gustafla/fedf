@@ -44,6 +44,7 @@ class Game {
         void updateEffects();
         void doFightingCheck(unsigned int playerSelf=0, unsigned int playerOther=1);
         //void doFightingAction(unsigned int playerSelf, unsigned int playerOther);
+        void playHitSound(unsigned int player=0);
 	public:
 		Game(GameData* igameData, Stage istage, Player player1, Player player2/*, unsigned int timer*/);
 		~Game();

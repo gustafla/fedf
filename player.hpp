@@ -60,8 +60,6 @@ class Player {
         bool moved;
         bool shielding;
         
-        void playHitSound();
-        
     public:
         Player(GameData* igameData, PlayerControls icontrols, SDL_Rect spawn, bool iright, Character icharacter, unsigned int inumber=0);
         void clean();
