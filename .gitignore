@@ -5,6 +5,7 @@ gfx/
 characters/
 stages/
 music/
+audio/
 *.dll
 COPYING
 stdout.txt

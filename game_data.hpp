@@ -23,6 +23,7 @@ This file is part of Fedora Fighters.
 #include <SDL/SDL_mixer.h>
 #include <string>
 #include <player_controls.hpp>
+#include "sounds.hpp"
 
 class GameData {
     public:
@@ -51,6 +52,7 @@ class GameData {
         PlayerControls player1Controls;
         PlayerControls player2Controls;
         unsigned int fps;
+        GameSounds* sounds;
 };
 
 #endif

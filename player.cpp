@@ -94,6 +94,12 @@ void Player::takeDamage(unsigned int amnt) {
         attackStatus = 0;
     stop();
     attackDelay += ((50*amnt)/100);
+    playHitSound();
+    //gameData->sounds->play("hit1.wav");
+}
+
+void Player::playHitSound() {
+    gameData->sounds->play(HIT_SOUNDS[int((1.0-(health/100.0))*(NUM_HIT_SOUNDS-1))]);
 }
 
 SDL_Rect Player::getCoord() {

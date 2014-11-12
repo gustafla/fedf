@@ -126,3 +126,7 @@ bool listDir(std::string dir, std::vector<std::string>* names) {
 		return false;
 	return true;
 }
+
+float clamp(float x, float a, float b){
+    return ((x < a) ? a : ((x > b) ? b : x));
+}

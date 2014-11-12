@@ -62,6 +62,11 @@ extern std::string const STAGE_MUSIC_FILE;
 
 extern std::string const MAIN_MUSIC_FILE;
 
+extern std::string const SOUNDS_DIR;
+
+extern unsigned int const NUM_HIT_SOUNDS;
+extern std::string const HIT_SOUNDS[];
+
 extern int const X_TRANSITION_VEC;
 extern int const TRANSITION_WIDTH;
 

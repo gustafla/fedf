@@ -64,6 +64,8 @@ name("Fedora Fighters") {
 		std::cout << "Can't do audio D:\n";
         exit(-8);
     }
+
+    sounds = new GameSounds;
 }
 
 bool GameData::drawTransition() {

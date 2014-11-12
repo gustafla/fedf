@@ -31,5 +31,6 @@ bool loadFile(std::string inFileName, std::string& outString, int linesize=4096)
 bool fexists(std::string const);
 SDL_Rect buildRect(int x, int y, int w, int h);
 bool listDir(std::string dir, std::vector<std::string>* names);
+float clamp(float x, float a=0.0, float b=1.0);
 
 #endif
