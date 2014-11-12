@@ -82,8 +82,8 @@ std::string const MAIN_MUSIC_FILE = "music/main.wav";
 
 std::string const SOUNDS_DIR = "./audio/";
 
-unsigned int const NUM_HIT_SOUNDS = 5;
-std::string const HIT_SOUNDS[NUM_HIT_SOUNDS] = {
+unsigned int const NUM_PUNCH_SOUNDS = 5;
+std::string const PUNCH_SOUNDS[NUM_PUNCH_SOUNDS] = {
     "hit1.wav",
     "hit2.wav",
     "hit3.wav",
