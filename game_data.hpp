@@ -1,4 +1,4 @@
-// Copyright 2014 Lauri Gustafsson, Kalle Korhonen and Julius Heino
+// Copyright 2014, 2015 Lauri Gustafsson, Kalle Korhonen and Julius Heino
 /*
 This file is part of Fedora Fighters.
 
