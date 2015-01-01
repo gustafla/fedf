@@ -10,3 +10,5 @@ audio/
 COPYING
 stdout.txt
 stderr.txt
+*.geany
+launch_x
